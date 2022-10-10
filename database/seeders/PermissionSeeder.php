@@ -26,6 +26,9 @@ class PermissionSeeder extends Seeder
             ['name' => 'show roles list', 'guard_name' => 'web', 'group_name' => 'roles'],
             ['name' => 'add role', 'guard_name' => 'web', 'group_name' => 'roles'],
             ['name' => 'edit role', 'guard_name' => 'web', 'group_name' => 'roles'],
+            ['name' => 'show users list', 'guard_name' => 'web', 'group_name' => 'users'],
+            ['name' => 'add user', 'guard_name' => 'web', 'group_name' => 'users'],
+            ['name' => 'edit users', 'guard_name' => 'web', 'group_name' => 'users'],
         ];
 
         $roles = [

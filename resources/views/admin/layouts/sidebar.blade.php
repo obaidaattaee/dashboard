@@ -18,11 +18,11 @@
             </a>
         </li>
         <li class="nav-title">{{ ucwords(t('settings')) }}</li>
-        @can('show general settings')
+        @can('show users list')
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.settings.general') }}">
-                    <i class="cil-settings px-2"></i>
-                    {{ ucwords(t('general settings')) }}
+                <a class="nav-link" href="{{ route('admin.users.index') }}">
+                    <i class="cil-group px-2"></i>
+                    {{ ucwords(t('users')) }}
                 </a>
             </li>
         @endcan
@@ -34,14 +34,16 @@
                 </a>
             </li>
         @endcan
-        @can('show roles list')
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.users.index') }}">
-                <i class="cil-group px-2"></i>
-                {{ ucwords(t('users')) }}
-            </a>
-        </li>
-    @endcan
+        @can('show general settings')
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.settings.general') }}">
+                    <i class="cil-settings px-2"></i>
+                    {{ ucwords(t('general settings')) }}
+                </a>
+            </li>
+        @endcan
+
+
     </ul>
     <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
 </div>
