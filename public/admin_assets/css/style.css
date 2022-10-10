@@ -9669,7 +9669,7 @@ html:not([dir=rtl]) .sidebar-close {
 }
 
 .sidebar-brand .sidebar-brand-narrow {
-    display: none;
+    display: block;
 }
 
 .sidebar-header {

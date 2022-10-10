@@ -18,9 +18,10 @@ class SettingSeeder extends Seeder
         $settings = [
             ['name' => 'App Name', 'key' => 'app_name', 'value' => 'Sanapix Subsriptions System', 'group' => 'general', 'type' => 'text', 'can_change' => true],
             ['name' => 'About', 'key' => 'about', 'value' => 'Manage the clients and subscriptions.', 'group' => 'general', 'type' => 'textarea', 'can_change' => true],
+            ['name' => 'App Logo', 'key' => 'app_logo', 'value' => '', 'group' => 'general', 'type' => 'file', 'can_change' => true],
         ];
 
-        Cache::flush();
+        Cache::forget('settings');
         Setting::truncate();
         Setting::insert($settings);
     }

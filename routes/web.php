@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -29,6 +30,8 @@ Route::prefix(LaravelLocalization::setLocale())->middleware(['localeSessionRedir
             Route::post('' , [SettingController::class , 'update'])->name('update');
             Route::get('general', [SettingController::class, 'general'])->name('general');
         });
+
+        Route::resource('roles' , RoleController::class);
         // end setting routes
 
     });

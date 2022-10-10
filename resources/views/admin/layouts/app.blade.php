@@ -22,6 +22,7 @@
     <!-- Vendors styles-->
     <link rel="stylesheet" href="{{ asset('admin_assets/vendors/simplebar/css/simplebar.css') }}">
     <link rel="stylesheet" href="{{ asset('admin_assets/css/vendors/simplebar.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin_assets/icons/coreui-icons-master/css/all.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- Main styles for this application-->
     <link href="{{ asset('admin_assets/css/style.css') }}" rel="stylesheet">
@@ -44,9 +45,11 @@
                     </svg>
                 </button>
                 <a class="header-brand d-md-none" href="#">
-                    <svg width="118" height="46" alt="CoreUI Logo">
+                    <img src="{{ config()->get('settings.app_logo') }}" class="sidebar-brand-narrow" width="118" height="46"
+            alt="">
+                    {{-- <svg width="118" height="46" alt="CoreUI Logo">
                         <use xlink:src="{{ asset('admin_assets/assets/brand/coreui.svg#full') }}"></use>
-                    </svg>
+                    </svg> --}}
                 </a>
                 <ul class="header-nav ms-auto">
                     <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#"
@@ -125,12 +128,21 @@
     <!-- CoreUI and necessary plugins-->
     <script src="{{ asset('admin_assets/vendors/@coreui/coreui/js/coreui.bundle.min.js') }}"></script>
     <script src="{{ asset('admin_assets/vendors/simplebar/js/simplebar.min.js') }}"></script>
+    <script src="{{ asset('admin_assets/icons/coreui-icons-master/js/index.js') }}"></script>
     <script src="{{ asset('admin_assets/js/jquery.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script>
         toastr.options.timeOut = 6000;
         toastr.options.extendedTimeOut = 0;
+    </script>
+
+    <script>
+        $('.search-button').on('click' , function(event){
+            event.preventDefault()
+
+            $('.search-section').toggleClass('d-none')
+        })
     </script>
     @yield('javascript')
 </body>

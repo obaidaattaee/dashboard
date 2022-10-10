@@ -28,9 +28,9 @@ class AppServiceProvider extends ServiceProvider
     {
         if (Schema::hasTable('settings')) {
 
-            Cache::flush();
+            Cache::forget('settings');
             $settings = Cache::remember('settings', 60, function () {
-                return Setting::get(['key', 'value'])->toArray();
+                return Setting::pluck( 'value' , 'key')->toArray();
             });
 
             config()->set('settings', $settings);

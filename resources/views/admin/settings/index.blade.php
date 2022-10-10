@@ -2,6 +2,8 @@
 
 @section('title', ucwords(t('general settings')))
 
+@section('css')
+@endsection
 @section('breadcrumb')
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
@@ -26,7 +28,8 @@
             </h3>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.settings.update') }}" method="post" id="setting_form" class="form-inline">
+            <form action="{{ route('admin.settings.update') }}" method="post" id="setting_form"
+                enctype="multipart/form-data" class="form-inline">
                 @csrf
 
                 <div class="row">
@@ -38,6 +41,12 @@
                                     value="{{ $setting->value }}">
                             @elseif ($setting->type == 'textarea')
                                 <textarea name="{{ $setting->key }}" class="form-control mt-2" id="{{ $setting->key }}" cols="30" rows="10">{{ $setting->value }}</textarea>
+                            @elseif ($setting->type == 'file')
+                                <input type="file" name="files[{{ $setting->key }}]" accept=".png,.jpeg,.jpg,.gif,.svg"
+                                    id="files.{{ $setting->key }}" class="fomr-control">
+                                    <div class="image mt-2 w-100 h-100">
+                                        <img src="{{ $setting->value }}" alt="{{ $setting->value }}" style="max-height: 80px">
+                                    </div>
                             @endif
                         </div>
                     @endforeach
@@ -72,7 +81,9 @@
                 $('.loader').hide()
 
                 toastr.success(response.message)
-            }).catch(function({responseJSON}) {
+            }).catch(function({
+                responseJSON
+            }) {
                 $('.loader').hide()
 
                 toastr.error(responseJSON.message)

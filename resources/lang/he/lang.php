@@ -12,4 +12,13 @@
  	'submit' => 'submit',
  	'general settings updated successfully' => 'general settings updated successfully',
  	'not found' => 'not found',
+ 	'App Logo' => 'App Logo',
+ 	'roles' => 'roles',
+ 	'Roles' => 'Roles',
+ 	'name' => 'name',
+ 	'guard' => 'guard',
+ 	'actions' => 'actions',
+ 	'search' => 'search',
+ 	'add new' => 'add new',
+ 	'Permissions' => 'Permissions',
 ];

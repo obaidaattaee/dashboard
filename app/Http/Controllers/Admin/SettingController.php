@@ -3,16 +3,31 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attachment;
 use App\Models\Setting;
+use App\Traits\FileUpload;
 use Exception;
 use Illuminate\Support\Facades\Cache;
 
 class SettingController extends Controller
 {
+    use FileUpload;
 
     public function update()
     {
-        $data = request()->except('_token');
+        $data = request()->except(['_token', 'files']);
+
+
+
+        if (request()->has('files') && count(request()->file('files'))) {
+            foreach (request()->file('files') as $key => $value) {
+                $attachment = $this->uploadFile($value);
+
+                $attachment = Attachment::create($attachment);
+
+                $data[$key] = $attachment['full_path'];
+            }
+        }
 
         foreach ($data as $key => $value) {
             $setting = Setting::where('key', $key)->first();
@@ -21,7 +36,7 @@ class SettingController extends Controller
                 $setting->update([
                     'value' => $value
                 ]);
-            }else{
+            } else {
                 $setting = Setting::create([
                     'key' => $key,
                     'value' => $value
@@ -29,9 +44,10 @@ class SettingController extends Controller
             }
         }
 
+
         Cache::flush();
 
-        return $this->sendResponse([] , t('general settings updated successfully'));
+        return $this->sendResponse([], t('general settings updated successfully'));
     }
     public function general()
     {
