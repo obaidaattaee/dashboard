@@ -14,7 +14,7 @@
     <meta name="description" content="{{ config()->get('settings.app_name', config()->get('app.app_name')) }}">
     <meta name="author" content="Obaida Attaee">
     {{-- <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard"> --}}
-    <title>{{ config()->get('settings.app_name', config()->get('app.app_name')) }} @yield('title')</title>
+    <title>{{ config()->get('settings.app_name', config()->get('app.app_name')) }} - @yield('title')</title>
     <link rel="manifest" src="{{ asset('admin_assets/assets/favicon/manifest.json') }}">
     <meta name="msapplication-TileColor" content="#ffffff">
 

@@ -6,7 +6,7 @@
                 <th>{{ ucwords(t('name')) }}</th>
                 <th>{{ ucwords(t('email')) }}</th>
                 <th>{{ ucwords(t('roles')) }}</th>
-                <th style="max-width: 20px">{{ ucwords(t('actions')) }}</th>
+                <th style="max-width: 80px;min-width: 60px">{{ ucwords(t('actions')) }}</th>
             </tr>
         </thead>
         <tbody>

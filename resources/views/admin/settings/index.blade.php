@@ -42,8 +42,8 @@
                             @elseif ($setting->type == 'textarea')
                                 <textarea name="{{ $setting->key }}" class="form-control mt-2" id="{{ $setting->key }}" cols="30" rows="10">{{ $setting->value }}</textarea>
                             @elseif ($setting->type == 'file')
-                                <input type="file" name="files[{{ $setting->key }}]" accept=".png,.jpeg,.jpg,.gif,.svg"
-                                    id="files.{{ $setting->key }}" class="fomr-control">
+                                <input type="file" name="files[{{ $setting->key }}]" accept=".png,.jpeg,.jpg,.gif"
+                                    id="files.{{ $setting->key }}" class="form-control">
                                     <div class="image mt-2 w-100 h-100">
                                         <img src="{{ $setting->value }}" alt="{{ $setting->value }}" style="max-height: 80px">
                                     </div>

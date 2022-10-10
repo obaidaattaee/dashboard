@@ -5,7 +5,7 @@
                 <th>#</th>
                 <th>{{ ucwords(t('name')) }}</th>
                 <th>{{ ucwords(t('guard')) }}</th>
-                <th style="max-width: 20px">{{ ucwords(t('actions')) }}</th>
+                <th style="max-width: 80px;min-width: 60px">{{ ucwords(t('actions')) }}</th>
             </tr>
         </thead>
         <tbody>
@@ -14,7 +14,7 @@
                     <td>{{ $role->id }}</td>
                     <td>{{ object_get($role, 'name') }}</td>
                     <td>{{ object_get($role, 'guard_name') }}</td>
-                    <td style="max-width: 20px">
+                    <td style="max-width: 80px;min-width: 60px">
                         <a href="{{ route('admin.roles.edit', ['role' => $role->id]) }}" class="btn btn-warning btn-sm">
                             <i class="cil-color-border"></i>
                         </a>
