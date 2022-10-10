@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
@@ -37,6 +38,9 @@ Route::prefix(LaravelLocalization::setLocale())->middleware(['localeSessionRedir
         // start resources routes
         Route::resource('roles', RoleController::class);
         Route::resource('users', UserController::class);
+        Route::resource('plans', PlanController::class);
+        Route::resource('clients', PlanController::class);
+
         // end resources routes
 
     });

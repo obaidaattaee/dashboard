@@ -24,10 +24,11 @@
     <link rel="stylesheet" href="{{ asset('admin_assets/css/vendors/simplebar.css') }}">
     <link rel="stylesheet" href="{{ asset('admin_assets/icons/coreui-icons-master/css/all.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="{{ asset('admin_assets/vendors/sweet_alert/dist/sweetalert2.css') }}">
+
     <!-- Main styles for this application-->
     <link href="{{ asset('admin_assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin_assets/css/examples.css') }}" rel="stylesheet">
-
     @yield('css')
 </head>
 
@@ -45,8 +46,8 @@
                     </svg>
                 </button>
                 <a class="header-brand d-md-none" href="#">
-                    <img src="{{ config()->get('settings.app_logo') }}" class="sidebar-brand-narrow" width="118" height="46"
-            alt="">
+                    <img src="{{ config()->get('settings.app_logo') }}" class="sidebar-brand-narrow" width="118"
+                        height="46" alt="">
                     {{-- <svg width="118" height="46" alt="CoreUI Logo">
                         <use xlink:src="{{ asset('admin_assets/assets/brand/coreui.svg#full') }}"></use>
                     </svg> --}}
@@ -131,6 +132,7 @@
     <script src="{{ asset('admin_assets/icons/coreui-icons-master/js/index.js') }}"></script>
     <script src="{{ asset('admin_assets/js/jquery.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="{{ asset('admin_assets/vendors/sweet_alert/dist/sweetalert2.js') }}"></script>
 
     <script>
         toastr.options.timeOut = 6000;
@@ -138,10 +140,68 @@
     </script>
 
     <script>
-        $('.search-button').on('click' , function(event){
+        $('.search-button').on('click', function(event) {
             event.preventDefault()
 
             $('.search-section').toggleClass('d-none')
+        })
+    </script>
+
+    <script>
+        $(document).on('submit', '.delete_item', function(event) {
+            event.preventDefault()
+
+            var url = $(this).prop('action')
+            var formData = new FormData(this);
+
+            $('.loader').show()
+
+            Swal.fire({
+                title: "{{ t('Do you want to save the changes?') }}",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: '{{ ucwords(t('delete')) }}',
+                denyButtonText: "{{ t('Don\'t save') }}",
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $('.loader').show()
+
+                    $.ajax({
+                        url: url,
+                        method: "post",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                    }).then(function(response) {
+                        $('.loader').hide()
+                        toastr.success(response.message)
+
+                        setTimeout(() => {
+                            window.location.reload()
+                        }, 2000);
+                    }).catch(function({
+                        responseJSON
+                    }) {
+                        $('.loader').hide()
+
+                        if (responseJSON.errors && Object.keys(responseJSON.errors).length) {
+                            Object.keys(responseJSON.errors).forEach(error => {
+                                toastr.error(responseJSON.errors[error][0]);
+                            });
+                        } else {
+                            toastr.error(responseJSON.message)
+                        }
+                    })
+
+                } else if (result.isDenied) {
+                    toastr.warning("{{ t('Changes are not saved') }}")
+                }
+
+                $('.loader').hide()
+
+            })
+
         })
     </script>
     @yield('javascript')

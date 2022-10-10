@@ -7007,6 +7007,11 @@ html:not([dir=rtl]) .list-group-horizontal>.list-group-item+.list-group-item.act
     background-color: var(--cui-green);
 }
 
+.toast-warning {
+    background-color: var(--cui-warning);
+}
+
+
 .toast-error {
     background-color: var(--cui-red);
 }

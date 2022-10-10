@@ -133,7 +133,7 @@
             }) {
                 $('.loader').hide()
 
-                if (Object.keys(responseJSON.errors).length) {
+                if (responseJSON.errors && Object.keys(responseJSON.errors).length) {
                     Object.keys(responseJSON.errors).forEach(error => {
                         toastr.error(responseJSON.errors[error][0]);
                     });

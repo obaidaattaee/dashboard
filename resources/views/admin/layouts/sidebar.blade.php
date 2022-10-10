@@ -17,6 +17,25 @@
                 </svg> Dashboard<span class="badge badge-sm bg-info ms-auto">NEW</span>
             </a>
         </li>
+        {{-- @can('show clients list') --}}
+        <li class="nav-title">{{ ucwords(t('Clients')) }}</li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.clients.index') }}">
+                <i class="cil-applications px-2"></i>
+                {{ ucwords(t('Clients')) }}
+            </a>
+        </li>
+        {{-- @endcan --}}
+        @can('show users list')
+            <li class="nav-title">{{ ucwords(t('plans')) }}</li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.plans.index') }}">
+                    <i class="cil-library px-2"></i>
+                    {{ ucwords(t('plans')) }}
+                </a>
+            </li>
+        @endcan
         <li class="nav-title">{{ ucwords(t('settings')) }}</li>
         @can('show users list')
             <li class="nav-item">
