@@ -23,4 +23,9 @@
             @endforeach
         </tbody>
     </table>
+@else
+    <h4 class="text-center mt-4">
+        {{ ucwords(t('there is no data for now.')) }}
+        <a href="{{ route('admin.roles.create') }}" class="text-success">{{ ucwords(t('add new')) }}</a>
+    </h4>
 @endif

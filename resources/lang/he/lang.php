@@ -23,4 +23,11 @@
  	'Permissions' => 'Permissions',
  	'role added successfully' => 'role added successfully',
  	'role updated successfully' => 'role updated successfully',
+ 	'there is no data for now.' => 'there is no data for now.',
+ 	'users' => 'users',
+ 	'Users' => 'Users',
+ 	'email' => 'email',
+ 	'password' => 'password',
+ 	'user added successfully' => 'user added successfully',
+ 	'user updated successfully' => 'user updated successfully',
 ];

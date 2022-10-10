@@ -13,6 +13,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -42,4 +43,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * filter table in dashboard
+     */
+    public function scopeTableFilter($query)
+    {
+        return $query->when(request()->input('name', false), function ($query, $name) {
+            return $query->where('name', 'like', '%' . $name . '%');
+        })->when(request()->input('email', false), function ($query, $email) {
+            return $query->where('email', 'like', '%' . $email . '%');
+        });
+    }
 }

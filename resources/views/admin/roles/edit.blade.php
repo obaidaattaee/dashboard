@@ -57,7 +57,7 @@
                                         @foreach ($permissions as $permission)
                                             <div class="col-md-3">
                                                 <input type="checkbox" class="permission" name="permissions[]"
-                                                    @if ($role->hasPermissionTo($permission->id)) checked @endif
+                                                    @if ($role && $role->hasPermissionTo($permission->id)) checked @endif
                                                     id="permissions_{{ $permission->id }}" value="{{ $permission->id }}">
                                                 <label
                                                     for="permissions_{{ $permission->id }}">{{ $permission->name }}</label>
@@ -127,7 +127,7 @@
 
                 setTimeout(() => {
                     window.location.href = "{{ route('admin.roles.index') }}"
-                }, 3000);
+                }, 2000);
             }).catch(function({
                 responseJSON
             }) {

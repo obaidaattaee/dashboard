@@ -21,20 +21,27 @@
         @can('show general settings')
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.settings.general') }}">
-                    <img src="{{ asset('admin_assets/assets/icons/settings.svg') }}" class="px-2" alt="">
+                    <i class="cil-settings px-2"></i>
                     {{ ucwords(t('general settings')) }}
                 </a>
             </li>
         @endcan
-        {{-- @can('show roles') --}}
+        @can('show roles list')
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.roles.index') }}">
-                    <img src="{{ asset('admin_assets/assets/icons/settings.svg') }}" class="px-2" alt="">
-                    <i class="fa fa-users"></i>
+                    <i class="cil-address-book px-2"></i>
                     {{ ucwords(t('roles')) }}
                 </a>
             </li>
-        {{-- @endcan --}}
+        @endcan
+        @can('show roles list')
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.users.index') }}">
+                <i class="cil-group px-2"></i>
+                {{ ucwords(t('users')) }}
+            </a>
+        </li>
+    @endcan
     </ul>
     <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
 </div>
