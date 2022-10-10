@@ -34,11 +34,12 @@
                 </button>
             </h3>
             <div class="card-toolbar search-section d-none">
-                <form action="{{ route('admin.roles.index') }}" method="get" id="filter form">
+                <form action="{{ route('admin.roles.index') }}" method="get" id="filter_form">
                     @csrf
                     <div class="row">
                         <div class="col-md-3">
-                            <input type="text" placeholder="name" class="form-control">
+                            <input type="text" placeholder="{{ ucwords(t('name')) }}" name="name" id="name"
+                                class="form-control">
                         </div>
 
                         <div class="col-md-3">
@@ -60,5 +61,40 @@
 @endsection
 
 @section('javascript')
-    <script></script>
+    <script>
+        $('#filter_form').on('submit', function(event) {
+            event.preventDefault()
+
+            $('.loader').show()
+
+            var formData = new FormData(this)
+
+            var url = $(this).prop('action')
+
+            $.ajax({
+                url: url + "?name=" + $('#name').val(),
+                method: "get",
+                data: formData,
+                processData: false,
+                contentType: false,
+            }).then(function(response) {
+                $('.loader').hide()
+
+                $('.roles-content').empty().append(response.data)
+
+            }).catch(function({
+                responseJSON
+            }) {
+                $('.loader').hide()
+
+                if (Object.keys(responseJSON.errors).length) {
+                    Object.keys(responseJSON.errors).forEach(error => {
+                        toastr.error(responseJSON.errors[error][0]);
+                    });
+                } else {
+                    toastr.error(responseJSON.message)
+                }
+            })
+        })
+    </script>
 @endsection

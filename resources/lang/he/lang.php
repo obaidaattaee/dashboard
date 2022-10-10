@@ -21,4 +21,6 @@
  	'search' => 'search',
  	'add new' => 'add new',
  	'Permissions' => 'Permissions',
+ 	'role added successfully' => 'role added successfully',
+ 	'role updated successfully' => 'role updated successfully',
 ];
