@@ -109,14 +109,84 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-coreui-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <!-- Start Invoice Modal -->
+    <div class="modal fade" id="invoiceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modat-title">
+                        {{ ucwords(t('add invoice')) }}
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('admin.invoices.store') }}" enctype="multipart/form-data" method="POST"
+                        id="invoice_form">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="invoice_number">{{ ucwords(t('invoice number')) }}</label>
+                                <input placeholder="{{ ucwords(t('invoice number')) }}" type="text"
+                                    class="form-control my-2" name="invoice_number" id="invoice_number">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="invoice_number">
+                                    {{ ucwords(t('duration')) }}
+                                    <span class="duration_type"></span>
+                                </label>
+                                <input placeholder="{{ ucwords(t('duration')) }}" type="number" class="form-control my-2"
+                                    name="duration" id="duration">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="description">{{ ucwords(t('description')) }}</label>
+                                <textarea placeholder="{{ ucwords(t('description')) }}" name="description" id="description" cols="30"
+                                    rows="10" class="form-control my-2"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="invoice_number">{{ ucwords(t('invoice cost')) }}</label>
+                                <input placeholder="{{ ucwords(t('invoice cost')) }}" type="number" step=".0001"
+                                    class="form-control my-2" name="invoice_cost" id="invoice_cost">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="invoice_number">{{ ucwords(t('invoice image')) }}</label>
+                                <input type="file" class="form-control my-2" name="invoice_image" id="invoice_image">
+                            </div>
+                        </div>
+                        <input type="hidden" name="subscriptions" id="subscription_ids" value="">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-coreui-dismiss="modal">Close</button>
+                    <button class="btn btn-success btn-sm" type="submit"
+                        form="invoice_form">{{ ucwords(t('submit')) }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Invoice Modal -->
+
+
 @endsection
 
 @section('javascript')
+    <script>
+        EMPTY_SUBSCRIPTIONS = "{{ ucwords(t('you should select subscriptions first.')) }}"
+        DIFFIRANTE_SUBSCRIPTIONS = "{{ ucwords(t('you should select subscriptions that have same duration.')) }}"
+    </script>
     <script src="{{ asset('admin_assets/js/custom/subscriptions.js') }}"></script>
 
     <script>
