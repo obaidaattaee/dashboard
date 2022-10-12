@@ -62,22 +62,28 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="start_from" class="mt-2">{{ ucwords(t('Start from')) }}</label>
-                        <input type="text" name="start_from" value="@if($subscription){{ $subscription->start_from }}@endif" id="start_from" class="form-control" readonly>
+                        <input type="text" name="start_from"
+                            value="@if ($subscription) {{ $subscription->start_from }} @endif"
+                            id="start_from" class="form-control" readonly>
                     </div>
                     <div class="col-md-6">
                         <label for="expiration_date" class="mt-2">{{ ucwords(t('expiration date')) }}</label>
-                        <input type="text" name="expiration_date" value="@if($subscription){{ $subscription->expiration_date }}@endif" id="expiration_date" class="form-control" readonly>
+                        <input type="text" name="expiration_date"
+                            value="@if ($subscription) {{ $subscription->expiration_date }} @endif"
+                            id="expiration_date" class="form-control">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <label for="cost" class="mt-2">{{ ucwords(t('cost')) }}</label>
-                        <input type="text" name="cost" value="@if($subscription){{ $subscription->cost }}@endif" id="cost" class="form-control" readonly>
+                        <input type="text" name="cost"
+                            value="@if ($subscription) {{ $subscription->cost }} @endif" id="cost"
+                            class="form-control">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <label for="cost" class="mt-2">{{ ucwords(t('description')) }}</label>
+                        <label for="description" class="mt-2">{{ ucwords(t('description')) }}</label>
                         <textarea name="description" id="description" cols="30" rows="10" class="form-control mt-2">
 @if ($subscription)
 {{ $subscription->description }}
@@ -85,7 +91,8 @@
 </textarea>
                     </div>
                 </div>
-                <input type="hidden" name="duration" id="duration" value="@if($subscription){{ $subscription->duration }}@endif">
+                <input type="hidden" name="duration" id="duration"
+                    value="@if ($subscription) {{ $subscription->duration }} @endif">
             </form>
         </div>
         <div class="card-footer text-end">
@@ -120,7 +127,7 @@
 
                 setTimeout(() => {
                     window.location.href =
-                        "{{ request()->input('client_id')  ? route('admin.clients.show', ['client' => request()->input('client_id')]) : route('admin.subscriptions.index') }}"
+                        "{{ request()->input('client_id') ? route('admin.clients.show', ['client' => request()->input('client_id')]) : route('admin.subscriptions.index') }}"
                 }, 2000);
             }).catch(function({
                 responseJSON
@@ -137,6 +144,14 @@
             })
         })
         $('#start_from').datepicker({
+            format: "yyyy-mm-dd",
+            weekStart: 1,
+            orientation: "bottom",
+            language: "{{ app()->getLocale() }}",
+            keyboardNavigation: false,
+            // endDate: endYear,
+        });
+        $('#expiration_date').datepicker({
             format: "yyyy-mm-dd",
             weekStart: 1,
             orientation: "bottom",
