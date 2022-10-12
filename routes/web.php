@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -41,6 +42,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware(['localeSessionRedir
         Route::resource('users', UserController::class);
         Route::resource('plans', PlanController::class);
         Route::resource('clients', ClientController::class);
+        Route::resource('subscriptions', SubscriptionController::class);
 
         // end resources routes
 

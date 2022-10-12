@@ -8,7 +8,7 @@
                 <th>{{ ucwords(t('company_phone')) }}</th>
                 <th>{{ ucwords(t('admin_name')) }}</th>
                 <th>{{ ucwords(t('admin_phone')) }}</th>
-                <th style="max-width: 80px;min-width: 60px">{{ ucwords(t('actions')) }}</th>
+                <th style="max-width: 100px;min-width: 80px">{{ ucwords(t('actions')) }}</th>
             </tr>
         </thead>
         <tbody>
@@ -23,6 +23,11 @@
                     <td>{{ object_get($client, 'admin_name' , '-') }}</td>
                     <td>{{ object_get($client, 'admin_phone' , '-') }}</td>
                     <td style="max-width: 40px;min-width: 30px">
+
+                        <a href="{{ route('admin.clients.show', ['client' => $client->id]) }}" class="btn btn-success btn-sm">
+                            <i class="cil-description"></i>
+                        </a>
+
                         <a href="{{ route('admin.clients.edit', ['client' => $client->id]) }}" class="btn btn-warning btn-sm">
                             <i class="cil-color-border"></i>
                         </a>

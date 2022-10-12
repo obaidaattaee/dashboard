@@ -20,11 +20,16 @@ class Client extends Model
 
     public function logo()
     {
-        return $this->belongsTo(Attachment::class , 'logo_id' , 'id');
+        return $this->belongsTo(Attachment::class, 'logo_id', 'id');
     }
 
     public function getLogoImageAttribute()
     {
-        return object_get($this , 'logo.full_path' , asset('admin_assets/assets/icons/at.svg'));
+        return object_get($this, 'logo.full_path', asset('admin_assets/assets/icons/at.svg'));
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class, 'client_id', 'id');
     }
 }

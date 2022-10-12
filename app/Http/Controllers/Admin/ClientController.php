@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Clients\StoreClientRequest;
 use App\Models\Attachment;
 use App\Models\Client;
+use App\Models\Subscription;
 use App\Traits\FileUpload;
 
 class ClientController extends Controller
@@ -71,5 +72,15 @@ class ClientController extends Controller
         $client->update($data);
 
         return $this->sendResponse($client, t('client updated successfully'));
+    }
+
+    public function show(Client $client)
+    {
+        $limit = request()->input('limit' , 10);
+        $subscriptions = Subscription::where('client_id' , $client->id)->tableFilter()->paginate($limit , ['*'] , 'subscriptions');
+
+        return view('admin.clients.show')
+        ->with('subscriptions' , $subscriptions)
+            ->with('client', $client);
     }
 }

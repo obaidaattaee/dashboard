@@ -36,6 +36,15 @@
                 </a>
             </li>
         @endcan
+        @can('show users list')
+            <li class="nav-title">{{ ucwords(t('subscriptions')) }}</li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.subscriptions.index') }}">
+                    <i class="cil-library px-2"></i>
+                    {{ ucwords(t('subscriptions')) }}
+                </a>
+            </li>
+        @endcan
         <li class="nav-title">{{ ucwords(t('settings')) }}</li>
         @can('show users list')
             <li class="nav-item">
