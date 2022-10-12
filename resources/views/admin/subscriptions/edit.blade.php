@@ -64,7 +64,7 @@
                         <label for="start_from" class="mt-2">{{ ucwords(t('Start from')) }}</label>
                         <input type="text" name="start_from"
                             value="@if ($subscription) {{ $subscription->start_from }} @endif"
-                            id="start_from" class="form-control" readonly>
+                            id="start_from" class="form-control">
                     </div>
                     <div class="col-md-6">
                         <label for="expiration_date" class="mt-2">{{ ucwords(t('expiration date')) }}</label>
