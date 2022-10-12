@@ -8,6 +8,7 @@
                 <th>#</th>
                 <th>{{ ucwords(t('client')) }}</th>
                 <th>{{ ucwords(t('plan')) }}</th>
+                <th>{{ ucwords(t('description')) }}</th>
                 <th>{{ ucwords(t('duration')) }}</th>
                 <th>{{ ucwords(t('start from')) }}</th>
                 <th>{{ ucwords(t('expiration date')) }}</th>
@@ -29,6 +30,7 @@
                         {{ object_get($subscription, 'client.company_name', '-') }}
                     </td>
                     <td>{{ object_get($subscription, 'plan.name', '-') }}</td>
+                    <td>{{ substr(object_get($subscription, 'description', '-') , 0 , 150) }}</td>
                     <td>{{ object_get($subscription, 'plan.duration_name', '-') }}</td>
                     <td>{{ object_get($subscription, 'start_from', '-') }}</td>
                     <td>
