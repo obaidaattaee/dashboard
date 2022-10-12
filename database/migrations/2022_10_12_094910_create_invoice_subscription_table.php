@@ -15,7 +15,14 @@ class CreateInvoiceSubscriptionTable extends Migration
     {
         Schema::create('invoice_subscription', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('invoice_id');
+            $table->unsignedBigInteger('subscription_id');
+            $table->string('duration')->nullable();
+            $table->date('expiration_date')->nullable();
             $table->timestamps();
+
+            $table->foreign('invoice_id')->references('id')->on('invoices');
+            $table->foreign('subscription_id')->references('id')->on('subscriptions');
         });
     }
 

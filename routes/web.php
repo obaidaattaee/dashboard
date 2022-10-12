@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
@@ -36,6 +37,9 @@ Route::prefix(LaravelLocalization::setLocale())->middleware(['localeSessionRedir
         });
         // end setting routes
 
+        // start invoices routes
+        Route::post('invoices' , [InvoiceController::class , 'store'])->name('invoices.store');
+        // end invoices routes
 
         // start resources routes
         Route::resource('roles', RoleController::class);
@@ -43,7 +47,6 @@ Route::prefix(LaravelLocalization::setLocale())->middleware(['localeSessionRedir
         Route::resource('plans', PlanController::class);
         Route::resource('clients', ClientController::class);
         Route::resource('subscriptions', SubscriptionController::class);
-
         // end resources routes
 
     });

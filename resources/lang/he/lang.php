@@ -75,4 +75,11 @@ return [
  	'add invoice' => 'add invoice',
  	'subscription updated successfully' => 'subscription updated successfully',
  	'subscription details' => 'subscription details',
+ 	'invoice number' => 'invoice number',
+ 	'invoice image' => 'invoice image',
+ 	'you should select subscriptions first.' => 'you should select subscriptions first.',
+ 	'you should select subscriptions that have same duration.' => 'you should select subscriptions that have same duration.',
+ 	'inveoice cost' => 'inveoice cost',
+ 	'invoice cost' => 'invoice cost',
+ 	'invoice added successfully.' => 'invoice added successfully.',
 ];

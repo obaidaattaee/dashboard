@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model
+class InvoiceSubscription extends Model
 {
-    use HasFactory;
+    protected $table = 'invoice_subscription';
 
     protected $guarded = ['id'];
 }
