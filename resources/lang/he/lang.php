@@ -83,4 +83,5 @@ return [
  	'invoice cost' => 'invoice cost',
  	'invoice added successfully.' => 'invoice added successfully.',
  	'calculate by quantity' => 'calculate by quantity',
+ 	'quantity' => 'quantity',
 ];

@@ -53,7 +53,8 @@
                             <option value="">{{ ucwords(t('select plan')) }}</option>
                             @foreach ($plans as $plan)
                                 <option value="{{ $plan->id }}" data-duration="{{ $plan->duration }}"
-                                    data-cost="{{ $plan->cost }}" @if ($subscription && $subscription->plan_id == $plan->id) selected @endif>
+                                    data-is-quantable="{{ $plan->is_quantable }}" data-cost="{{ $plan->cost }}"
+                                    @if ($subscription && $subscription->plan_id == $plan->id) selected @endif>
                                     {{ $plan->name }}</option>
                             @endforeach
                         </select>
@@ -74,6 +75,12 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-md-6 quantity-section">
+                        <label for="quantity" class="mt-2">{{ ucwords(t('quantity')) }}</label>
+                        <input type="text" name="quantity"
+                            value="@if ($subscription) {{ $subscription->quantity }} @endif" id="quantity"
+                            class="form-control">
+                    </div>
                     <div class="col-md-6">
                         <label for="cost" class="mt-2">{{ ucwords(t('cost')) }}</label>
                         <input type="text" name="cost"
@@ -168,10 +175,28 @@
                 $('#cost').val($('#plan_id option:selected').data('cost'))
                 $('#duration').val(planDuration)
             }
+
             if (startFromDate._isValid) {
                 expirationDate = startFromDate.add(1, planDuration + 's').format('YYYY-MM-DD');
             }
             $('#expiration_date').val(expirationDate)
         })
+
+        // $('#plan_id , #start_from').on('change', function(event) {
+        //     var isPlanQuabtable = $('#plan_id option:selected').data('is-quantable')
+        //     if (isPlanQuabtable) {
+        //         var diration = moment()
+        //         $('.quantity-section').removeClass('d-none')
+
+        //         var CostOfUnit = $('#plan_id option:selected').data('cost')
+
+
+        //         $('#quantity').prop('value')
+
+        //         console.log();
+        //     }else{
+        //         $('.quantity-section').addClass('d-none')
+        //     }
+        // })
     </script>
 @endsection
