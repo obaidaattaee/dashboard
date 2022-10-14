@@ -26,8 +26,9 @@ class StorePlanRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'duration' => ['required' , 'in:' . implode(',' , array_column(Plan::DURATIONS , 'name'))],
-            'cost' => ['required' , 'numeric'],
+            'duration' => ['required', 'in:' . implode(',', array_column(Plan::DURATIONS, 'name'))],
+            'cost' => ['required', 'numeric'],
+            'is_quantable' => ['nullable', 'boolean'],
         ];
     }
 }

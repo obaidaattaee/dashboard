@@ -60,7 +60,6 @@ class PlanController extends Controller
     public function update(StorePlanRequest $request , Plan $plan)
     {
         $data = $request->validated();
-
         $plan->update($data);
 
         return $this->sendResponse($plan, t('plan updated successfully'));

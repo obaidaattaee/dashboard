@@ -204,6 +204,18 @@
 
         })
     </script>
+
+    <script>
+        $(document).on('click', 'input[type="checkbox"]', function(event) {
+            // event.preventDefault()
+            var isChecked = $(this).is(':checked')
+            if (isChecked) {
+                $(this).prop('value', 1)
+            } else {
+                $(this).prop('value', 0)
+            }
+        })
+    </script>
     @yield('javascript')
 </body>
 

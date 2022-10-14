@@ -53,7 +53,15 @@
                             @endforeach
                         </select>
                     </div>
-
+                    <div class="col-md-12 mt-2">
+                        <div class="form-check form-switch form-switch-xl">
+                            <input class="form-check-input" type="checkbox" name="is_quantable"
+                                id="flexSwitchCheckDefaultXl" @if($plan && $plan->is_quantable) checked @endif>
+                            <label class="form-check-label" for="flexSwitchCheckDefaultXl">
+                                {{ ucwords(t('calculate by quantity')) }}
+                            </label>
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <label for="cost" class="mt-2">{{ ucwords(t('cost')) }}</label>
                         <input type="number" step=".001" placeholder="{{ t('cost') }}" name="cost"
