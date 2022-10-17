@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="{{ asset('admin_assets/icons/coreui-icons-master/css/all.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="{{ asset('admin_assets/vendors/sweet_alert/dist/sweetalert2.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.css"
+        integrity="sha512-nNlU0WK2QfKsuEmdcTwkeh+lhGs6uyOxuUs+n+0oXSYDok5qy0EI0lt01ZynHq6+p/tbgpZ7P+yUb+r71wqdXg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Main styles for this application-->
     <link href="{{ asset('admin_assets/css/style.css') }}" rel="stylesheet">
@@ -133,6 +136,9 @@
     <script src="{{ asset('admin_assets/js/jquery.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="{{ asset('admin_assets/vendors/sweet_alert/dist/sweetalert2.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.js"
+        integrity="sha512-j7/1CJweOskkQiS5RD9W8zhEG9D9vpgByNGxPIqkO5KrXrwyDAroM9aQ9w8J7oRqwxGyz429hPVk/zR6IOMtSA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
         toastr.options.timeOut = 6000;
@@ -203,10 +209,11 @@
             })
 
         })
+
     </script>
 
     <script>
-        $(document).on('click', 'input[type="checkbox"]', function(event) {
+        $(document).on('click', 'input[type="checkbox"].form-check-input', function(event) {
             // event.preventDefault()
             var isChecked = $(this).is(':checked')
             if (isChecked) {
@@ -214,6 +221,41 @@
             } else {
                 $(this).prop('value', 0)
             }
+        })
+
+        $(document).on('click', '.pagination a', function(event) {
+            event.preventDefault()
+
+            var url = $(this).prop('href')
+            $('.loader').show()
+
+            $.ajax({
+                url: url,
+                method: "GET",
+                processData: false,
+                contentType: false,
+            }).then(function(response) {
+                $('.loader').hide()
+
+                if (response.status) {
+                    $('.' + response.data.container_class).empty().append(response.data.data)
+                } else {
+                    toastr.error(response.message)
+
+                }
+            }).catch(function({
+                responseJSON
+            }) {
+                $('.loader').hide()
+
+                if (responseJSON.errors && Object.keys(responseJSON.errors).length) {
+                    Object.keys(responseJSON.errors).forEach(error => {
+                        toastr.error(responseJSON.errors[error][0]);
+                    });
+                } else {
+                    toastr.error(responseJSON.message)
+                }
+            })
         })
     </script>
     @yield('javascript')

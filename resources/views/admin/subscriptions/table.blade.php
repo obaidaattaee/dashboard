@@ -12,11 +12,14 @@
                 <th>{{ ucwords(t('duration')) }}</th>
                 <th>{{ ucwords(t('start from')) }}</th>
                 <th>{{ ucwords(t('expiration date')) }}</th>
-                <th style="max-width: 100px;min-width: 80px">{{ ucwords(t('actions')) }}</th>
+                <th>{{ ucwords(t('invoice number')) }}</th>
+
+                <th style="max-width: 100px;min-width: 90px">{{ ucwords(t('actions')) }}</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($subscriptions as $subscription)
+                {{-- {{ dd($subscription->invoices) }} --}}
                 <tr>
                     <td>
                         <input type="checkbox" name="subscription_id[]" value="{{ $subscription->id }}"
@@ -25,21 +28,71 @@
                     </td>
                     <td>{{ $subscription->id }}</td>
                     <td>
-                        <img src="{{ $subscription->logo_image }}" alt="" class="rounded"
-                            style="max-width: 50px">
-                        {{ object_get($subscription, 'client.company_name', '-') }}
+                        <a
+                            href="{{ route('admin.clients.show', ['client' => object_get($subscription, 'client.id', '0')]) }}">
+                            <img src="{{ $subscription->logo_image }}" alt="" class="rounded"
+                                style="max-width: 50px">
+                            {{ object_get($subscription, 'client.company_name', '-') }}
+                        </a>
                     </td>
-                    <td>{{ object_get($subscription, 'plan.name', '-') }}</td>
-                    <td>{{ substr(object_get($subscription, 'description', '-') , 0 , 150) }}</td>
+                    <td>
+                        <a
+                            href="{{ route('admin.plans.edit', ['plan' => object_get($subscription, 'plan.id', '-')]) }}">
+                            {{ object_get($subscription, 'plan.name', '-') }}
+                        </a>
+                    </td>
+                    <td>{{ substr(object_get($subscription, 'description', '-'), 0, 150) }}</td>
                     <td>{{ object_get($subscription, 'plan.duration_name', '-') }}</td>
                     <td>{{ object_get($subscription, 'start_from', '-') }}</td>
                     <td>
                         @if ($subscription->status == App\Models\Subscription::STATUSES[0]['id'])
                             {{ object_get($subscription, 'status_name', '-') }}
+                        @elseif ($subscriptionInvoice = $subscription->invoiceSubscriptions->first())
+                            @php
+                                if (Carbon\Carbon::parse($subscriptionInvoice->expiration_date)->gt(now())) {
+                                    if (object_get($subscription, 'plan.name', App\Models\Plan::DURATIONS[0]['name']) == App\Models\Plan::DURATIONS[1]['name']) {
+                                        $color = Carbon\Carbon::parse($subscriptionInvoice->expiration_date)->diffInMonths(now()) > 1 ? 'success' : 'warning';
+                                    } else {
+                                        $color = Carbon\Carbon::parse($subscriptionInvoice->expiration_date)->diffInDays(now()) > 7 ? 'success' : 'warning';
+                                    }
+                                } else {
+                                    $color = 'danger';
+                                }
+                            @endphp
+                            <span class="invoices-history p-2 btn btn-{{ $color }} text-white rounded"
+                                data-url="{{ route('admin.subscriptions.show_invoices', ['subscription' => $subscription->id]) }}"
+                                data-subsccription-id="{{ $subscription->id }}">
+                                {{ object_get($subscriptionInvoice, 'expiration_date', '-') }}
+                            </span>
                         @else
-                            {{ object_get($subscription, 'expiration_date', '-') }}
+                            {{ ucwords(t('ends')) }}
                         @endif
                     </td>
+
+                    <td>
+                        @if ($subscriptionInvoice = $subscription->invoiceSubscriptions->first())
+                            @php
+                                if (Carbon\Carbon::parse($subscriptionInvoice->expiration_date)->gt(now())) {
+                                    if (object_get($subscription, 'plan.name', App\Models\Plan::DURATIONS[0]['name']) == App\Models\Plan::DURATIONS[1]['name']) {
+                                        $color = Carbon\Carbon::parse($subscriptionInvoice->expiration_date)->diffInMonths(now()) > 1 ? 'success' : 'warning';
+                                    } else {
+                                        $color = Carbon\Carbon::parse($subscriptionInvoice->expiration_date)->diffInDays(now()) > 7 ? 'success' : 'warning';
+                                    }
+                                } else {
+                                    $color = 'danger';
+                                }
+                            @endphp
+                            <span class="invoices-history p-2 btn btn-{{ $color }} text-white rounded"
+                                data-url="{{ route('admin.subscriptions.show_invoices', ['subscription' => $subscription->id]) }}"
+                                data-subsccription-id="{{ $subscription->id }}">
+                                {{ object_get($subscriptionInvoice, 'invoice.invoice_number', '-') }}
+                            </span>
+                        @else
+                            -
+                        @endif
+                    </td>
+
+
                     <td style="max-width: 40px;min-width: 30px">
 
                         <button data-description="{{ $subscription->description }}"
@@ -66,7 +119,11 @@
                 </tr>
             @endforeach
         </tbody>
+
     </table>
+    @if (!isset($needPagination))
+        {{ $subscriptions->links() }}
+    @endif
 @else
     <h4 class="text-center mt-4">
         {{ ucwords(t('there is no data for now.')) }}

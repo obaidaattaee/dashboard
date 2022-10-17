@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Subscriptions\StoreSubscriptionRequest;
 use App\Models\Client;
+use App\Models\InvoiceSubscription;
 use App\Models\Plan;
 use App\Models\Subscription;
 use App\Traits\FileUpload;
@@ -15,11 +16,16 @@ class SubscriptionController extends Controller
 
     public function index()
     {
-        $limit = request()->input('limit', 10);
-        $subscriptions = Subscription::tableFilter()->paginate($limit, ['*'], 'subscriptions');
 
+        $limit = request()->input('limit', 10);
+        $subscriptions = Subscription::tableFilter()
+            ->orderBy('id', 'desc')
+            ->paginate($limit, ['*'], 'subscriptions');
         if (request()->ajax()) {
-            return $this->sendResponse(view('admin.subscriptions.table')->with('subscriptions', $subscriptions)->render());
+            return $this->sendResponse([
+                'data' => view('admin.subscriptions.table')->with('subscriptions', $subscriptions)->render(),
+                'container_class' => 'subscriptions-content',
+            ]);
         }
 
         return view('admin.subscriptions.index')->with('subscriptions', $subscriptions);

@@ -52,6 +52,7 @@ $(document).on('click', '.invoice-button', function () {
 
     $('input.subscription:checked').each((index, element) => {
         subscriptionDurations[index] = $(element).data('duration')
+        console.log(element);
         subscriptionIds[index] = $(element).val()
     })
 
@@ -60,6 +61,7 @@ $(document).on('click', '.invoice-button', function () {
         toastr.warning(DIFFIRANTE_SUBSCRIPTIONS)
         return
     }
+    console.log(subscriptionIds.toString());
     $('.duration_type').empty().append('(' + subscriptionDurations[0] + ')')
     $('#subscription_ids').prop('value', subscriptionIds.toString())
     $('#invoiceModal').modal('show')
@@ -103,3 +105,39 @@ $(document).on('submit', '#invoice_form', function (event) {
         }
     })
 })
+
+$(document).on('click', '.invoices-history', function (event) {
+    var subscriptionId = $(this).data('subsccription-id')
+    var url = $(this).data('url')
+
+    $('.loader').show()
+    console.log(url);
+
+    $.ajax({
+        url: url,
+        method: "GET",
+        processData: false,
+        contentType: false,
+    }).then(function (response) {
+        $('.loader').hide()
+        $('#invoicesModal .modal-body').empty().append(response.data.data)
+        $('#invoicesModal').modal('show')
+
+        // setTimeout(() => {
+        //     window.location.reload()
+        // }, 2000);
+
+    }).catch(function ({
+        responseJSON
+    }) {
+        $('.loader').hide()
+        if (responseJSON.errors && Object.keys(responseJSON.errors).length) {
+            Object.keys(responseJSON.errors).forEach(error => {
+                toastr.error(responseJSON.errors[error][0]);
+            });
+        } else {
+            toastr.error(responseJSON.message)
+        }
+    })
+})
+

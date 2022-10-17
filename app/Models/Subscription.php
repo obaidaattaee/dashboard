@@ -54,4 +54,14 @@ class Subscription extends Model
     {
         return $this->belongsTo(Plan::class);
     }
+
+    public function invoices()
+    {
+        return $this->belongsToMany(Invoice::class, 'invoice_subscription', 'subscription_id', 'invoice_id');
+    }
+
+    public function invoiceSubscriptions()
+    {
+        return $this->hasMany(InvoiceSubscription::class , 'subscription_id')->latest();
+    }
 }

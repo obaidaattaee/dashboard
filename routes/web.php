@@ -38,7 +38,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware(['localeSessionRedir
         // end setting routes
 
         // start invoices routes
-        Route::post('invoices' , [InvoiceController::class , 'store'])->name('invoices.store');
+        Route::post('invoices', [InvoiceController::class, 'store'])->name('invoices.store');
         // end invoices routes
 
         // start resources routes
@@ -49,6 +49,8 @@ Route::prefix(LaravelLocalization::setLocale())->middleware(['localeSessionRedir
         Route::resource('subscriptions', SubscriptionController::class);
         // end resources routes
 
+        // invoice subscriptions
+        Route::get('invoice-subscriptions/{subscription}', [InvoiceController::class, 'show'])->name('subscriptions.show_invoices');
     });
 
 

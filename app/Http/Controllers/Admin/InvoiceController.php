@@ -36,12 +36,21 @@ class InvoiceController extends Controller
 
             if ($subscriptions && count($subscriptions)) {
                 foreach ($subscriptions as $subscription) {
-                    $expiration = Carbon::parse($subscription->start_from)->{"add" . ucwords($subscription->plan->duration) . 's'}($duration);
+                    if ($lastSubscription = $subscription->invoiceSubscriptions->first()) {
+                        $startDate = $lastSubscription->expiration_date;
+                    } else {
+                        $startDate = $subscription->expiration_date;
+                    }
+
+                    $expiration = Carbon::parse($startDate)->{"add" . ucwords($subscription->plan->duration) . 's'}($duration);
+
                     $rows[$subscription->id] = InvoiceSubscription::create([
                         'invoice_id' => $invoice->id,
                         'subscription_id' => $subscription->id,
                         'duration' => $duration,
                         'expiration_date' => $expiration,
+                        'cost' => $subscription->cost,
+                        'start_from' => $startDate
                     ]);
                     $subscription->update([
                         'expiration_date' => $expiration,
@@ -53,12 +62,25 @@ class InvoiceController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            return $this->sendError();
+            return $this->sendError(t('somethings went wrong'), [
+                'message' => $th->getMessage()
+            ]);
         }
-
+        // dd($invoice , $rows);
         return $this->sendResponse([
             'invoice' => $invoice,
             'rows' => $rows
-        ] , ucwords(t('invoice added successfully.')));
+        ], ucwords(t('invoice added successfully.')));
+    }
+
+    public function show(Subscription $subscription)
+    {
+        $invoiceSubscriptions = InvoiceSubscription::where('subscription_id', $subscription->id)->get();
+
+        if (request()->ajax()) {
+            return $this->sendResponse([
+                'data' => view('admin.invoice_subscription.table')->with('subscriptions', $invoiceSubscriptions)->render()
+            ]);
+        }
     }
 }

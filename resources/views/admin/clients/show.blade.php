@@ -180,6 +180,29 @@
     <!-- End Invoice Modal -->
 
 
+
+    <!-- Start Show Invoices Modal -->
+    <div class="modal fade" id="invoicesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modat-title">
+                        {{ ucwords(t('Show Invoices')) }}
+                    </div>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Show Invoices Modal -->
+
+
+
 @endsection
 
 @section('javascript')

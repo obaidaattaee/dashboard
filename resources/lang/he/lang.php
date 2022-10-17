@@ -84,4 +84,9 @@ return [
  	'invoice added successfully.' => 'invoice added successfully.',
  	'calculate by quantity' => 'calculate by quantity',
  	'quantity' => 'quantity',
+ 	'attachment' => 'attachment',
+ 	'Show Invoices' => 'Show Invoices',
+ 	'no image' => 'no image',
+ 	'somethings went wrong' => 'somethings went wrong',
+ 	'invoices' => 'invoices',
 ];
