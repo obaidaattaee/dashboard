@@ -24,7 +24,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 Route::prefix(LaravelLocalization::setLocale())->middleware(['localeSessionRedirect', 'localizationRedirect', 'localeViewPath'])->group(function () {
     Route::get('/', function () {
-        return view('welcome');
+        return redirect()->route('admin.dashboard');
     })->name('home');
     Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

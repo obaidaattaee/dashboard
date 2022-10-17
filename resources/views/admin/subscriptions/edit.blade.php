@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 quantity-section">
+                    <div class="col-md-6 quantity-section d-none">
                         <label for="quantity" class="mt-2">{{ ucwords(t('quantity')) }}</label>
                         <input type="text" name="quantity"
                             value="@if ($subscription) {{ $subscription->quantity }} @endif" id="quantity"
