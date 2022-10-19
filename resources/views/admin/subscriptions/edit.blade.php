@@ -269,13 +269,14 @@
             var expirationDate = moment($('#expiration_date').prop('value'))
             var quantity = $('#quantity').prop('value')
 
-            if (!isQuantable || !startFromDate._isValid && !expirationDate._isValid) {
+            if (!startFromDate._isValid && !expirationDate._isValid) {
                 return
             }
             var diffDuration = expirationDate.diff(startFromDate, planDuration + 's', true)
 
             var cost = quantity ? planCost * diffDuration * quantity : planCost * diffDuration;
 
+            console.log(cost);
             $('#cost').prop('value' , cost)
         })
     </script>
