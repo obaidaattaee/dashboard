@@ -72,6 +72,7 @@ $(document).on('click', '.invoice-button', function () {
 $(document).on('submit', '#invoice_form', function (event) {
     event.preventDefault()
     $('.loader').show()
+    $('button[form="invoice_form"]').prop('disabled', true)
 
     var url = $(this).prop('action')
     var formData = new FormData(this)
@@ -84,6 +85,7 @@ $(document).on('submit', '#invoice_form', function (event) {
         contentType: false,
     }).then(function (response) {
         $('.loader').hide()
+        $('button[form="invoice_form"]').prop('disabled', false)
 
         toastr.success(response.message)
         $('#invoiceModal').modal('hide')
@@ -96,6 +98,8 @@ $(document).on('submit', '#invoice_form', function (event) {
         responseJSON
     }) {
         $('.loader').hide()
+        $('button[form="invoice_form"]').prop('disabled', false)
+
         if (responseJSON.errors && Object.keys(responseJSON.errors).length) {
             Object.keys(responseJSON.errors).forEach(error => {
                 toastr.error(responseJSON.errors[error][0]);
