@@ -63,35 +63,38 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="start_from" class="mt-2">{{ ucwords(t('Start from')) }}</label>
-                        <input type="text" name="start_from"
+                        <input type="text" name="start_from" placeholder="{{ ucwords(t('Start from')) }}"
                             value="@if ($subscription) {{ $subscription->start_from }} @endif"
                             id="start_from" class="form-control">
                     </div>
                     <div class="col-md-6">
                         <label for="expiration_date" class="mt-2">{{ ucwords(t('expiration date')) }}</label>
-                        <input type="text" name="expiration_date"
+                        <input type="text" name="expiration_date" readonly
+                            placeholder="{{ ucwords(t('expiration date')) }}"
                             value="@if ($subscription) {{ $subscription->expiration_date }} @endif"
                             id="expiration_date" class="form-control">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 quantity-section d-none">
-                        <label for="quantity" class="mt-2">{{ ucwords(t('quantity')) }}</label>
-                        <input type="text" name="quantity"
-                            value="@if ($subscription) {{ $subscription->quantity }} @endif" id="quantity"
-                            class="form-control">
-                    </div>
                     <div class="col-md-6">
                         <label for="cost" class="mt-2">{{ ucwords(t('cost')) }}</label>
-                        <input type="text" name="cost"
+                        <input type="text" name="cost" placeholder="{{ ucwords(t('cost')) }}"
                             value="@if ($subscription) {{ $subscription->cost }} @endif" id="cost"
+                            class="form-control">
+                    </div>
+
+                    <div class="col-md-6 quantity-section d-none">
+                        <label for="quantity" class="mt-2">{{ ucwords(t('quantity')) }}</label>
+                        <input type="number" name="quantity" placeholder="{{ ucwords(t('quantity')) }}"
+                            value="@if ($subscription) {{ $subscription->quantity }} @endif" id="quantity"
                             class="form-control">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <label for="description" class="mt-2">{{ ucwords(t('description')) }}</label>
-                        <textarea name="description" id="description" cols="30" rows="10" class="form-control mt-2">
+                        <textarea name="description" id="description" placeholder="{{ ucwords(t('description')) }}" cols="30"
+                            rows="10" class="form-control mt-2">
 @if ($subscription)
 {{ $subscription->description }}
 @endif
@@ -115,6 +118,7 @@
     <script type="text/javascript" src="{{ asset('admin_assets/js/bootstrap-datepicker.min.js') }}"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script>
+        // submit subscription form
         $('#subscription_form').on('submit', function(event) {
             event.preventDefault();
             $('.loader').show()
@@ -150,53 +154,129 @@
                 }
             })
         })
+
+        // config the start from date
         $('#start_from').datepicker({
             format: "yyyy-mm-dd",
             weekStart: 1,
             orientation: "bottom",
             language: "{{ app()->getLocale() }}",
             keyboardNavigation: false,
+            autoclose: false
             // endDate: endYear,
         });
+
+        // config the expiration date
         $('#expiration_date').datepicker({
             format: "yyyy-mm-dd",
             weekStart: 1,
             orientation: "bottom",
             language: "{{ app()->getLocale() }}",
             keyboardNavigation: false,
+            autoclose: false
             // endDate: endYear,
         });
 
+        // handle when user change plan or start date
         $('#plan_id , #start_from').on('change', function(event) {
             var planDuration = $('#plan_id option:selected').data('duration')
-            var startFromDate = moment($('#start_from').val())
+            var startFromDate = moment($('#start_from').prop('value'))
             var expirationDate
             if (planDuration) {
                 $('#cost').val($('#plan_id option:selected').data('cost'))
                 $('#duration').val(planDuration)
             }
 
-            if (startFromDate._isValid) {
-                expirationDate = startFromDate.add(1, planDuration + 's').format('YYYY-MM-DD');
+            if (startFromDate._isValid && planDuration) {
+                var expirationDate = startFromDate.add(1, planDuration + 's').format('YYYY-MM-DD')
+
+                $('#expiration_date').datepicker("destroy");
+                $('#expiration_date').datepicker({
+                    format: "yyyy-mm-dd",
+                    weekStart: 1,
+                    viewMode: planDuration + 's',
+                    minViewMode: planDuration + 's',
+                    orientation: "bottom",
+                    language: "{{ app()->getLocale() }}",
+                    keyboardNavigation: false,
+                    startDate: new Date(expirationDate),
+                    autoclose: false
+                })
             }
             $('#expiration_date').val(expirationDate)
         })
 
-        // $('#plan_id , #start_from').on('change', function(event) {
-        //     var isPlanQuabtable = $('#plan_id option:selected').data('is-quantable')
-        //     if (isPlanQuabtable) {
-        //         var diration = moment()
-        //         $('.quantity-section').removeClass('d-none')
+        // handle expiration date format when user change the expiration date
+        $('#expiration_date').datepicker().on('change', function() {
+            var planDuration = $('#plan_id option:selected').data('duration')
+            var startFromDate = moment($('#start_from').prop('value'))
+            var cahngedDate = moment($('#expiration_date').datepicker('getDate'));
+            var expirationDate = startFromDate.add(1, planDuration + 's').format('YYYY-MM-DD')
 
-        //         var CostOfUnit = $('#plan_id option:selected').data('cost')
+            if (startFromDate._isValid && planDuration) {
+                if (planDuration == 'month') {
+                    expirationDate = cahngedDate.format('YYYY-MM-') + startFromDate.format('DD');
+                } else {
+                    expirationDate = cahngedDate.format('YYYY-') + startFromDate.format('MM-DD');
+                }
+            }
 
+            // console.log(planDuration, startFromDate, cahngedDate , expirationDate);
 
-        //         $('#quantity').prop('value')
+            $('#expiration_date').prop('value', expirationDate)
 
-        //         console.log();
-        //     }else{
-        //         $('.quantity-section').addClass('d-none')
-        //     }
-        // })
+        });
+
+        // handle expiration date format when user close the expiration datepicker
+        $('#expiration_date').datepicker().on('focusout', function() {
+            var planDuration = $('#plan_id option:selected').data('duration')
+            var startFromDate = moment($('#start_from').prop('value'))
+            var cahngedDate = moment($('#expiration_date').datepicker('getDate'));
+            var expirationDate = startFromDate.add(1, planDuration + 's').format('YYYY-MM-DD')
+
+            if (startFromDate._isValid && planDuration) {
+                if (planDuration == 'month') {
+                    expirationDate = cahngedDate.format('YYYY-MM-') + startFromDate.format('DD');
+                } else {
+                    expirationDate = cahngedDate.format('YYYY-') + startFromDate.format('MM-DD');
+                }
+            }
+
+            // console.log(planDuration, startFromDate, cahngedDate , expirationDate);
+
+            $('#expiration_date').prop('value', expirationDate)
+
+        });
+
+        // handle quantity input when plan changes
+        $('#plan_id').on('change', function(event) {
+            var isQuantable = $('#plan_id option:selected').data('is-quantable')
+            var quantitySection = $('.quantity-section')
+            if (isQuantable) {
+                quantitySection.removeClass('d-none')
+            } else {
+                quantitySection.addClass('d-none')
+                quantitySection.find('#quantity').prop('value', "")
+            }
+        })
+
+        // calculate cost when cange plan , start date , expiration date or quantity
+        $('#plan_id , #quantity , #expiration_date ,#start_from').on('change', function(event) {
+            var isQuantable = $('#plan_id option:selected').data('is-quantable')
+            var planDuration = $('#plan_id option:selected').data('duration')
+            var planCost = $('#plan_id option:selected').data('cost')
+            var startFromDate = moment($('#start_from').prop('value'))
+            var expirationDate = moment($('#expiration_date').prop('value'))
+            var quantity = $('#quantity').prop('value')
+
+            if (!isQuantable || !startFromDate._isValid && !expirationDate._isValid) {
+                return
+            }
+            var diffDuration = expirationDate.diff(startFromDate, planDuration + 's', true)
+
+            var cost = quantity ? planCost * diffDuration * quantity : planCost * diffDuration;
+
+            $('#cost').prop('value' , cost)
+        })
     </script>
 @endsection
