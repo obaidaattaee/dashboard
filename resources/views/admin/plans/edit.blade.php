@@ -55,7 +55,7 @@
                     </div>
                     <div class="col-md-12 mt-2">
                         <div class="form-check form-switch form-switch-xl">
-                            <input class="form-check-input" type="checkbox" name="is_quantable"
+                            <input class="form-check-input" type="checkbox" name="is_quantable" value="{{ $plan && $plan->is_quantable ? 1 : 0 }}"
                                 id="flexSwitchCheckDefaultXl" @if($plan && $plan->is_quantable) checked @endif>
                             <label class="form-check-label" for="flexSwitchCheckDefaultXl">
                                 {{ ucwords(t('calculate by quantity')) }}
