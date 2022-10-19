@@ -83,7 +83,7 @@
                             class="form-control">
                     </div>
 
-                    <div class="col-md-6 quantity-section @if (!$subscription && !$subscription->quantity) d-none @endif ">
+                    <div class="col-md-6 quantity-section @if ($subscription && $subscription->quantity) @else d-none @endif ">
                         <label for="quantity" class="mt-2">{{ ucwords(t('quantity')) }}</label>
                         <input type="number" name="quantity" placeholder="{{ ucwords(t('quantity')) }}"
                             value="@if ($subscription) {{ $subscription->quantity }} @endif" id="quantity"
