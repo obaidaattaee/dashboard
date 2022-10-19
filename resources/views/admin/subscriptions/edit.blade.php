@@ -65,14 +65,14 @@
                         <label for="start_from" class="mt-2">{{ ucwords(t('Start from')) }}</label>
                         <input type="text" name="start_from" placeholder="{{ ucwords(t('Start from')) }}"
                             value="@if ($subscription) {{ $subscription->start_from }} @endif"
-                            id="start_from" class="form-control">
+                            id="start_from" class="form-control" autocomplete="off">
                     </div>
                     <div class="col-md-6">
                         <label for="expiration_date" class="mt-2">{{ ucwords(t('expiration date')) }}</label>
                         <input type="text" name="expiration_date" readonly
                             placeholder="{{ ucwords(t('expiration date')) }}"
                             value="@if ($subscription) {{ $subscription->expiration_date }} @endif"
-                            id="expiration_date" class="form-control">
+                            id="expiration_date" class="form-control" autocomplete="off">
                     </div>
                 </div>
                 <div class="row">
@@ -83,7 +83,7 @@
                             class="form-control">
                     </div>
 
-                    <div class="col-md-6 quantity-section d-none">
+                    <div class="col-md-6 quantity-section @if (!$subscription && !$subscription->quantity) d-none @endif ">
                         <label for="quantity" class="mt-2">{{ ucwords(t('quantity')) }}</label>
                         <input type="number" name="quantity" placeholder="{{ ucwords(t('quantity')) }}"
                             value="@if ($subscription) {{ $subscription->quantity }} @endif" id="quantity"
@@ -260,24 +260,24 @@
             }
         })
 
-        // calculate cost when cange plan , start date , expiration date or quantity
-        $('#plan_id , #quantity , #expiration_date ,#start_from').on('change', function(event) {
-            var isQuantable = $('#plan_id option:selected').data('is-quantable')
-            var planDuration = $('#plan_id option:selected').data('duration')
-            var planCost = $('#plan_id option:selected').data('cost')
-            var startFromDate = moment($('#start_from').prop('value'))
-            var expirationDate = moment($('#expiration_date').prop('value'))
-            var quantity = $('#quantity').prop('value')
+        // // calculate cost when cange plan , start date , expiration date or quantity
+        // $('#plan_id , #quantity , #expiration_date ,#start_from').on('change', function(event) {
+        //     var isQuantable = $('#plan_id option:selected').data('is-quantable')
+        //     var planDuration = $('#plan_id option:selected').data('duration')
+        //     var planCost = $('#plan_id option:selected').data('cost')
+        //     var startFromDate = moment($('#start_from').prop('value'))
+        //     var expirationDate = moment($('#expiration_date').prop('value'))
+        //     var quantity = $('#quantity').prop('value')
 
-            if (!startFromDate._isValid && !expirationDate._isValid) {
-                return
-            }
-            var diffDuration = expirationDate.diff(startFromDate, planDuration + 's', true)
+        //     if (!startFromDate._isValid && !expirationDate._isValid) {
+        //         return
+        //     }
+        //     var diffDuration = expirationDate.diff(startFromDate, planDuration + 's', true)
 
-            var cost = quantity ? planCost * diffDuration * quantity : planCost * diffDuration;
+        //     var cost = quantity ? planCost * diffDuration * quantity : planCost * diffDuration;
 
-            console.log(cost);
-            $('#cost').prop('value' , cost)
-        })
+        //     console.log(cost);
+        //     $('#cost').prop('value' , cost)
+        // })
     </script>
 @endsection
