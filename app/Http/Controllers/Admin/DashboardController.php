@@ -19,8 +19,7 @@ class DashboardController extends Controller
                 InvoiceSubscription::select('expiration_date')
                     ->whereColumn('invoice_subscription.subscription_id', 'subscriptions.id')
                     ->latest()
-                    ->take(1),
-                'desc'
+                    ->take(1)
             )->paginate($limit, ['*'], 'subscriptions');
         if (request()->ajax()) {
             return $this->sendResponse([
