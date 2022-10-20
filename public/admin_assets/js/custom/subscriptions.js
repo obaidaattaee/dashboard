@@ -145,3 +145,15 @@ $(document).on('click', '.invoices-history', function (event) {
     })
 })
 
+
+$(document).on('click', '.subscription-invoice', function (event) {
+    event.preventDefault()
+
+    var subscriptionId = $(this).data('subsccription-id')
+
+    $('.subscription').prop('checked', false)
+
+    $('.subscription#subscription_id_' + subscriptionId).prop('checked', true)
+
+    $('.invoice-button').click()
+})

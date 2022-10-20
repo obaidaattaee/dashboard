@@ -24,12 +24,13 @@ class StoreSubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'client_id' => ['required' , 'exists:clients,id'],
-            'plan_id' => ['required' , 'exists:plans,id'],
-            'start_from' => ['required' , 'date' , 'date_format:Y-m-d'],
-            'expiration_date' => ['required' , 'date' , 'date_format:Y-m-d'],
-            'cost' => ['required' , 'numeric'],
+            'client_id' => ['required', 'exists:clients,id'],
+            'plan_id' => ['required', 'exists:plans,id'],
+            'start_from' => ['required', 'date', 'date_format:Y-m-d'],
+            'expiration_date' => ['required', 'date', 'date_format:Y-m-d'],
+            'cost' => ['required', 'numeric'],
             'description' => ['nullable'],
+            'quantity' => ['nullable', 'numeric']
         ];
     }
 }

@@ -1,8 +1,7 @@
 <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
-    <div class="sidebar-brand d-none d-md-flex">
-        <img src="{{ config()->get('settings.app_logo') }}" class="sidebar-brand-narrow" width="46" height="46"
+    <div class="sidebar-brand d-none d-md-flex ">
+        <img src="{{ config()->get('settings.app_logo') }}" class="sidebar-brand-narrow w-75" height="46"
             alt="">
-
         {{-- <img src="{{ config()->get('settings.app_logo') }}" class="sidebar-brand-narrow" width="46" height="46"
             alt=""> --}}
 

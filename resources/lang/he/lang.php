@@ -89,4 +89,5 @@ return [
  	'no image' => 'no image',
  	'somethings went wrong' => 'somethings went wrong',
  	'invoices' => 'invoices',
+ 	'Qt.' => 'Qt.',
 ];

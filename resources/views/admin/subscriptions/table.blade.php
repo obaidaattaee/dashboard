@@ -13,6 +13,8 @@
                 <th>{{ ucwords(t('start from')) }}</th>
                 <th>{{ ucwords(t('expiration date')) }}</th>
                 <th>{{ ucwords(t('invoice number')) }}</th>
+                <th>{{ ucwords(t('cost')) }}</th>
+                <th>{{ ucwords(t('Qt.')) }}</th>
 
                 <th style="max-width: 100px;min-width: 90px">{{ ucwords(t('actions')) }}</th>
             </tr>
@@ -92,8 +94,18 @@
                         @endif
                     </td>
 
-
+                    <td>
+                        {{ object_get($subscription , 'cost') * object_get($subscription , 'quantity' , 1)  }}
+                    </td>
+                    <td>
+                        {{ object_get($subscription , 'quantity' , '-') }}
+                    </td>
                     <td style="max-width: 40px;min-width: 30px">
+
+                        <button data-subsccription-id="{{ $subscription->id }}"
+                            class="btn btn-info btn-sm subscription-invoice">
+                            <i class="cil-money"></i>
+                        </button>
 
                         <button data-description="{{ $subscription->description }}"
                             class="btn btn-success btn-sm subscription-details">

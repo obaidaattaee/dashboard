@@ -5,15 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Subscriptions\StoreSubscriptionRequest;
 use App\Models\Client;
+use App\Models\Invoice;
 use App\Models\InvoiceSubscription;
 use App\Models\Plan;
 use App\Models\Subscription;
 use App\Traits\FileUpload;
+use Illuminate\Support\Facades\DB;
 
 class SubscriptionController extends Controller
 {
     use FileUpload;
 
+    /**
+     * show table of subscriptions if that request from browser,
+     * send table only id requested from ajax request
+     */
     public function index()
     {
 
@@ -52,8 +58,37 @@ class SubscriptionController extends Controller
         $data = $request->validated();
         $data['creatad_by'] = request()->user()->id;
 
-        $subscription = Subscription::create($data);
+        try {
+            DB::beginTransaction();
 
+            $subscription = Subscription::create($data);
+
+            $invoice = Invoice::create([
+                'invoice_number' => "XXXXXXXXX",
+                'description' => $data['description'],
+                'duration' => object_get($subscription, 'plan.duration'),
+                'invoice_cost' => object_get($subscription, 'quantity', 1) * object_get($subscription, 'cost', object_get($subscription, 'plan.cost')),
+            ]);
+
+            $invoiceSubscription = InvoiceSubscription::create([
+                'invoice_id' => $invoice->id,
+                'subscription_id' => $subscription->id,
+                'duration' => object_get($subscription, 'plan.duration'),
+                'expiration_date' => $data['expiration_date'],
+                'cost' => $subscription->cost,
+                'start_from' => $data['start_from']
+            ]);
+
+            $subscription->update([
+                'status' => Subscription::STATUSES[1]['id']
+            ]);
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return $this->sendError();
+        }
         return $this->sendResponse($subscription, t('subscription added successfully'));
     }
 
