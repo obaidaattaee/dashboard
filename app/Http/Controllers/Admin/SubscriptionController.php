@@ -23,7 +23,7 @@ class SubscriptionController extends Controller
     public function index()
     {
 
-        $limit = request()->input('limit', 1);
+        $limit = request()->input('limit', 10);
         $subscriptions = Subscription::tableFilter()
             ->orderBy(
                 InvoiceSubscription::select('expiration_date')
