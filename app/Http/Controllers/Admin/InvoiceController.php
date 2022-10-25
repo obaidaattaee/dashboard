@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Invoices\ChangeInvoiceSubscriptionRequest;
 use App\Http\Requests\Admin\Invoices\StoreInvoiceRequest;
 use App\Models\Attachment;
 use App\Models\Invoice;
@@ -81,6 +82,32 @@ class InvoiceController extends Controller
             return $this->sendResponse([
                 'data' => view('admin.invoice_subscription.table')->with('subscriptions', $invoiceSubscriptions)->render()
             ]);
+        }
+    }
+
+    public function ChangeSalesStatus(ChangeInvoiceSubscriptionRequest $request)
+    {
+        try {
+            $ids = json_decode($request->input('invoice_subscriptions'), true);
+            $type = $request->input('type');
+
+            if ($request->user()->can('change sales status to called') and $type == 'called') {
+                InvoiceSubscription::whereIn('id', $ids)->update([
+                    'sales_status' => InvoiceSubscription::STATUSES[1]['id'],
+                ]);
+
+                return $this->sendResponse([], t('subscriptions upated to called'));
+            } else if ($request->user()->can('change sales status to renewd')  and $type == 'renewd') {
+                InvoiceSubscription::whereIn('id', $ids)->update([
+                    'sales_status' => InvoiceSubscription::STATUSES[2]['id'],
+                ]);
+
+                return $this->sendResponse([], t('subscriptions upated to renewd'));
+            }
+
+            return $this->sendError(t('invalid request, please try again.'));
+        } catch (\Throwable $th) {
+            return $this->sendError();
         }
     }
 }

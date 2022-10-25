@@ -3,7 +3,7 @@
 @section('title', ucwords(t('Subscriptions')))
 
 @section('css')
-@endsection
+
 @section('breadcrumb')
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
@@ -25,28 +25,62 @@
         <div class="card-header">
             <h3>
                 {{ ucwords(t('Subscriptions')) }}
-                <a class="btn btn-success float-end" href="{{ route('admin.subscriptions.create') }}">
+                <a class="btn btn-success mx-1 float-end" href="{{ route('admin.subscriptions.create') }}">
                     <i class="cil-plus"></i>
                     {{ ucwords(t('add new')) }}
                 </a>
-                <button class="btn btn-gray search-button float-end">
+                <button class="btn btn-gray mx-1 search-button float-end">
                     <i class="cil-search"></i>
                 </button>
-                <button class="btn btn-info invoice-button d-none float-end">
+                <button class="btn btn-primary mx-1 invoice-button d-none float-end">
                     <i class="cil-money"></i>
                     {{ ucwords(t('add invoice')) }}
                 </button>
+                @can('change sales status to called')
+                    <a class="btn btn-info mx-1 sales-button d-none float-end"
+                        href="{{ route('admin.invoice_subscription.change_sales_status', ['type' => 'called']) }}">
+                        <i class="cil-money"></i>
+                        {{ ucwords(t('mark as called')) }}
+                    </a>
+                @endcan
+                @can('change sales status to renewd')
+                    <a class="btn btn-success mx-1 sales-button d-none float-end"
+                        href="{{ route('admin.invoice_subscription.change_sales_status', ['type' => 'renewd']) }}">
+                        <i class="cil-money"></i>
+                        {{ ucwords(t('mark as renewd')) }}
+                    </a>
+                @endcan
+
+
             </h3>
             <div class="card-toolbar search-section d-none">
                 <form action="{{ route('admin.subscriptions.index') }}" method="get" id="filter_form">
                     @csrf
                     <div class="row">
                         <div class="col-md-3">
-                            <input type="text" placeholder="{{ ucwords(t('name')) }}" name="name" id="name"
-                                class="form-control">
+                            {{-- <input type="text" placeholder="{{ ucwords(t('name')) }}" name="name" id="name"
+                                class="form-control"> --}}
+                            <select name="client_id" id="client_id" class="form-control select">
+                                <option value="">{{ ucwords(t('all clients')) }}</option>
+                                @foreach ($clients as $client)
+                                    <option value="{{ $client->id }}">{{ $client->company_name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" placeholder="{{ ucwords(t('email')) }}" name="email" id="email"
+                            {{-- <input type="text" placeholder="{{ ucwords(t('email')) }}" name="email" id="email"
+                                class="form-control"> --}}
+                            <select name="plan_id" id="plan_id" class="form-control form-select select"
+                                data-coreui-search="true">
+                                <option value="">{{ ucwords(t('all clients')) }}</option>
+                                @foreach ($plans as $plan)
+                                    <option value="{{ $plan->id }}">{{ $plan->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <input type="text" placeholder="{{ ucwords(t('search')) }}" name="search" id="search"
                                 class="form-control">
                         </div>
 
@@ -174,10 +208,26 @@
 @endsection
 
 @section('javascript')
+
     <script>
         EMPTY_SUBSCRIPTIONS = "{{ ucwords(t('you should select subscriptions first.')) }}"
         DIFFIRANTE_SUBSCRIPTIONS = "{{ ucwords(t('you should select subscriptions that have same duration.')) }}"
+        DIFFIRANTE_SUBSCRIPTIONS = "{{ ucwords(t('you should select subscriptions that have same duration.')) }}"
     </script>
+
+    <script>
+        @hasallroles('super_admin')
+            function SalesStatusFilter(value, index, self) {
+                return self.indexOf(value) === index;
+            }
+        @else
+            function SalesStatusFilter(value, index, self) {
+                console.log(value, index, self);
+                return false;
+            }
+        @endhasallroles
+    </script>
+
     <script src="{{ asset('admin_assets/js/custom/subscriptions.js') }}"></script>
 
     <script>
@@ -191,7 +241,9 @@
             var url = $(this).prop('action')
 
             $.ajax({
-                url: url + "?name=" + $('#name').val() + '&email=' + $('#email').val(),
+                url: url + "?client_id=" + $('#client_id').val() + '&plan_id=' + $('#plan_id').val() +
+                    '&search=' +
+                    $('#search').val(),
                 method: "get",
                 data: formData,
                 processData: false,
@@ -199,7 +251,7 @@
             }).then(function(response) {
                 $('.loader').hide()
 
-                $('.subscriptions-content').empty().append(response.data)
+                $(response.data.container_class).empty().append(response.data.data)
 
             }).catch(function({
                 responseJSON
@@ -216,4 +268,6 @@
             })
         })
     </script>
+
+
 @endsection

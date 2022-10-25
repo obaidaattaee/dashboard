@@ -17,7 +17,7 @@
     <title>{{ config()->get('settings.app_name', config()->get('app.app_name')) }} - @yield('title')</title>
     <link rel="manifest" src="{{ asset('admin_assets/assets/favicon/manifest.json') }}">
     <meta name="msapplication-TileColor" content="#ffffff">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="theme-color" content="#ffffff">
     <!-- Vendors styles-->
     <link rel="stylesheet" href="{{ asset('admin_assets/vendors/simplebar/css/simplebar.css') }}">
@@ -28,6 +28,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.css"
         integrity="sha512-nNlU0WK2QfKsuEmdcTwkeh+lhGs6uyOxuUs+n+0oXSYDok5qy0EI0lt01ZynHq6+p/tbgpZ7P+yUb+r71wqdXg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
     <!-- Main styles for this application-->
     <link href="{{ asset('admin_assets/css/style.css') }}" rel="stylesheet">
@@ -139,6 +143,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.js"
         integrity="sha512-j7/1CJweOskkQiS5RD9W8zhEG9D9vpgByNGxPIqkO5KrXrwyDAroM9aQ9w8J7oRqwxGyz429hPVk/zR6IOMtSA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 
     <script>
         toastr.options.timeOut = 6000;
@@ -151,6 +156,10 @@
 
             $('.search-section').toggleClass('d-none')
         })
+
+        $('.select , select').select2({
+            theme: 'bootstrap-5'
+        });
     </script>
 
     <script>
@@ -209,7 +218,6 @@
             })
 
         })
-
     </script>
 
     <script>

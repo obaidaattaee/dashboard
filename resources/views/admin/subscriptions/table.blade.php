@@ -13,6 +13,7 @@
                 <th>{{ ucwords(t('start from')) }}</th>
                 <th>{{ ucwords(t('expiration date')) }}</th>
                 <th>{{ ucwords(t('invoice number')) }}</th>
+                <th>{{ ucwords(t('sales status')) }}</th>
                 <th>{{ ucwords(t('cost')) }}</th>
                 <th>{{ ucwords(t('Qt.')) }}</th>
 
@@ -26,6 +27,8 @@
                     <td>
                         <input type="checkbox" name="subscription_id[]" value="{{ $subscription->id }}"
                             data-duration="{{ object_get($subscription, 'plan.duration') }}" class="subscription"
+                            data-sales-status="@if ($subscriptionInvoice = $subscription->invoiceSubscriptions->first()) {{ $subscriptionInvoice->sales_status }} @endif"
+                            data-invoice-subscription-id="@if ($subscriptionInvoice = $subscription->invoiceSubscriptions->first()) {{ $subscriptionInvoice->id }} @endif"
                             id="subscription_id_{{ $subscription->id }}">
                     </td>
                     <td>{{ $subscription->id }}</td>
@@ -61,7 +64,7 @@
                                     $color = 'danger';
                                 }
                             @endphp
-                            <span class="invoices-history p-2 btn btn-{{ $color }} text-white rounded"
+                            <span class="invoices-history btn btn-{{ $color }} btn-sm text-white rounded"
                                 data-url="{{ route('admin.subscriptions.show_invoices', ['subscription' => $subscription->id]) }}"
                                 data-subsccription-id="{{ $subscription->id }}">
                                 {{ object_get($subscriptionInvoice, 'expiration_date', '-') }}
@@ -84,7 +87,7 @@
                                     $color = 'danger';
                                 }
                             @endphp
-                            <span class="invoices-history p-2 btn btn-{{ $color }} text-white rounded"
+                            <span class="invoices-history btn btn-{{ $color }} btn-sm text-white rounded"
                                 data-url="{{ route('admin.subscriptions.show_invoices', ['subscription' => $subscription->id]) }}"
                                 data-subsccription-id="{{ $subscription->id }}">
                                 {{ object_get($subscriptionInvoice, 'invoice.invoice_number', '-') }}
@@ -95,10 +98,20 @@
                     </td>
 
                     <td>
-                        {{ object_get($subscription , 'cost') * object_get($subscription , 'quantity' , 1)  }}
+                        {{ object_get($subscription, 'cost') * object_get($subscription, 'quantity', 1) }}
                     </td>
                     <td>
-                        {{ object_get($subscription , 'quantity' , '-') }}
+                        @if ($subscriptionInvoice = $subscription->invoiceSubscriptions->first())
+                            <span class="btn btn-{{ $subscriptionInvoice->sales_status_color }} btn-sm">
+                                {{ $subscriptionInvoice->sales_status_name }}
+                            </span>
+                        @else
+                            <span class="btn btn-warning btn-sm">
+                                {{ App\Models\InvoiceSubscription::STATUSES[0]['name'] }}</span>
+                        @endif
+                    </td>
+                    <td>
+                        {{ object_get($subscription, 'quantity', '-') }}
                     </td>
                     <td style="max-width: 40px;min-width: 30px">
 

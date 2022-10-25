@@ -43,6 +43,10 @@ class Subscription extends Model
     {
         return $query->when(request()->input('clinet_id', false), function ($query, $clientId) {
             return $query->where('client_id', $clientId);
+        })->when(request()->input('plan_id', false), function ($query, $planId) {
+            return $query->where('plan_id', $planId);
+        })->when(request()->input('search', false), function ($query, $search) {
+            return $query->where('description', 'like', '%' . $search . '%');
         });
     }
 
@@ -62,6 +66,6 @@ class Subscription extends Model
 
     public function invoiceSubscriptions()
     {
-        return $this->hasMany(InvoiceSubscription::class , 'subscription_id')->latest();
+        return $this->hasMany(InvoiceSubscription::class, 'subscription_id')->latest();
     }
 }

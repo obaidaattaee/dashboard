@@ -51,6 +51,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware(['localeSessionRedir
 
         // invoice subscriptions
         Route::get('invoice-subscriptions/{subscription}', [InvoiceController::class, 'show'])->name('subscriptions.show_invoices');
+        Route::post('invoice-subscriptions/change-sales-status', [InvoiceController::class, 'ChangeSalesStatus'])->name('invoice_subscription.change_sales_status');
     });
 
 

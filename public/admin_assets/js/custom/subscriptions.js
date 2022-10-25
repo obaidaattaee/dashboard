@@ -30,8 +30,10 @@ $(document).on('change', 'input.subscriptions , input.subscription', function ()
 
     if (checkedSubscriptions) {
         $('.invoice-button').removeClass('d-none')
+        $('.sales-button').removeClass('d-none')
     } else {
         $('.invoice-button').addClass('d-none')
+        $('.sales-button').addClass('d-none')
     }
 })
 
@@ -156,4 +158,85 @@ $(document).on('click', '.subscription-invoice', function (event) {
     $('.subscription#subscription_id_' + subscriptionId).prop('checked', true)
 
     $('.invoice-button').click()
+})
+
+
+
+$(document).on('click', '.sales-button', function (event) {
+    event.preventDefault()
+
+    $('.loader').show()
+    $('.sales-button').prop('disabled', true)
+
+    var url = $(this).prop('href')
+    var formData = new FormData();
+
+    if ($('input.subscription:checked').length < 1) {
+        $('.loader').hide()
+        $('.sales-button').prop('disabled', false)
+
+        toastr.warning(EMPTY_SUBSCRIPTIONS)
+        return
+    }
+    var subscriptionStatuses = []
+    var subscriptionIds = []
+    var invoiceSubscriptionsIds = []
+
+    $('input.subscription:checked').each((index, element) => {
+        subscriptionStatuses[index] = $(element).data('sales-status')
+        subscriptionIds[index] = $(element).val()
+        invoiceSubscriptionsIds[index] = $(element).data('invoice-subscription-id')
+
+    })
+
+    subscriptionStatuses = subscriptionStatuses.filter(SalesStatusFilter)
+    invoiceSubscriptionsIds = invoiceSubscriptionsIds.filter(onlyUnique)
+    console.log(subscriptionStatuses, subscriptionIds, invoiceSubscriptionsIds);
+
+    formData.append('_token', $('[name="csrf-token"]').prop('content'))
+    formData.append('invoice_subscriptions', JSON.stringify(invoiceSubscriptionsIds))
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+    }).then(function (response) {
+        $('.loader').hide()
+        $('.sales-button').prop('disabled', false)
+
+        toastr.success(response.message)
+
+        setTimeout(() => {
+            window.location.reload()
+        }, 2000);
+
+
+
+
+    }).catch(function ({
+        responseJSON
+    }) {
+        $('.loader').hide()
+        $('.sales-button').prop('disabled', false)
+
+        if (responseJSON.errors && Object.keys(responseJSON.errors).length) {
+            Object.keys(responseJSON.errors).forEach(error => {
+                toastr.error(responseJSON.errors[error][0]);
+            });
+        } else {
+            toastr.error(responseJSON.message)
+        }
+    })
+
+
+    // if (subscriptionDurations.length > 1) {
+    //     toastr.warning(DIFFIRANTE_SUBSCRIPTIONS)
+    // }
+    // console.log(subscriptionIds.toString());
+    // $('.duration_type').empty().append('(' + subscriptionDurations[0] + ')')
+    // $('#subscription_ids').prop('value', subscriptionIds.toString())
+    // $('#invoiceModal').modal('show')
+
 })

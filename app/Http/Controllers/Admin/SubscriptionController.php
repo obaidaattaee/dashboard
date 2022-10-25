@@ -23,7 +23,7 @@ class SubscriptionController extends Controller
     public function index()
     {
 
-        $limit = request()->input('limit', 10);
+        $limit = request()->input('limit', 1);
         $subscriptions = Subscription::tableFilter()
             ->orderBy(
                 InvoiceSubscription::select('expiration_date')
@@ -39,7 +39,14 @@ class SubscriptionController extends Controller
             ]);
         }
 
-        return view('admin.subscriptions.index')->with('subscriptions', $subscriptions);
+        $clients = Client::get();
+        $plans = Plan::get();
+
+
+        return view('admin.subscriptions.index')
+            ->with('subscriptions', $subscriptions)
+            ->with('clients', $clients)
+            ->with('plans', $plans);
     }
 
     public function create()

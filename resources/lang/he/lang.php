@@ -90,4 +90,13 @@ return [
  	'somethings went wrong' => 'somethings went wrong',
  	'invoices' => 'invoices',
  	'Qt.' => 'Qt.',
+ 	'change to called' => 'change to called',
+ 	'sales status' => 'sales status',
+ 	'mark as called' => 'mark as called',
+ 	'mark as renewd' => 'mark as renewd',
+ 	'subscriptions upated to renewd' => 'subscriptions upated to renewd',
+ 	'subscriptions upated to called' => 'subscriptions upated to called',
+ 	'invalid request, please try again.' => 'invalid request, please try again.',
+ 	'edit' => 'edit',
+ 	'all clients' => 'all clients',
 ];

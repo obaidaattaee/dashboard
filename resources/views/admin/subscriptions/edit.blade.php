@@ -14,7 +14,12 @@
                         <!-- if breadcrumb is single--><span>{{ ucwords(t('dashboard')) }}</span>
                     </a>
                 </li>
-                <li class="breadcrumb-item active"><span>{{ ucwords(t('Subscriptions')) }}</span></li>
+                <li class="breadcrumb-item">
+                    <a href="{{ route('admin.subscriptions.index') }}" class="text-dark">
+                        <!-- if breadcrumb is single--><span>{{ ucwords(t('subscriptions')) }}</span>
+                    </a>
+                </li>
+                <li class="breadcrumb-item active"><span>@if($subscription) {{ ucwords(t('edit')) }} @else {{ ucwords(t('add new')) }} @endif</span></li>
             </ol>
         </nav>
     </div>
