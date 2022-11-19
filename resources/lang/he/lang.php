@@ -99,4 +99,5 @@ return [
  	'invalid request, please try again.' => 'invalid request, please try again.',
  	'edit' => 'edit',
  	'all clients' => 'all clients',
+ 	'client updated successfully' => 'client updated successfully',
 ];

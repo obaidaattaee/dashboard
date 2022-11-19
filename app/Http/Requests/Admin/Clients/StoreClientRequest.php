@@ -25,10 +25,10 @@ class StoreClientRequest extends FormRequest
     {
         return [
             "company_name" => ['nullable'],
-            "email" => ['nullable'],
-            "company_phone" => ['nullable'],
+            "email" => ['nullable' ,'unique:clients,email'],
+            "company_phone" => ['nullable','unique:clients,company_phone'],
             "admin_name" => ['nullable'],
-            "admin_phone" => ['nullable'],
+            "admin_phone" => ['nullable','unique:clients,admin_phone'],
             'logo_image' => ['nullable' , 'mimes:png,jpeg,jpg,gif']
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Clients\StoreClientRequest;
+use App\Http\Requests\Admin\Clients\UpdateClientRequest;
 use App\Models\Attachment;
 use App\Models\Client;
 use App\Models\Subscription;
@@ -65,7 +66,7 @@ class ClientController extends Controller
             ->with('client', $client);
     }
 
-    public function update(StoreClientRequest $request, Client $client)
+    public function update(UpdateClientRequest $request, Client $client)
     {
         $data = $request->validated();
 

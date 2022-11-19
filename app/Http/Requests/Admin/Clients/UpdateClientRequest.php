@@ -13,7 +13,7 @@ class UpdateClientRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class UpdateClientRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "company_name" => ['nullable'],
+            "email" => ['nullable' ,'unique:clients,email,' . $this->client->id . ',id'],
+            "company_phone" => ['nullable','unique:clients,company_phone,' . $this->client->id . ',id'],
+            "admin_name" => ['nullable'],
+            "admin_phone" => ['nullable','unique:clients,admin_phone,' . $this->client->id . ',id'],
+            'logo_image' => ['nullable' , 'mimes:png,jpeg,jpg,gif']
         ];
     }
 }
