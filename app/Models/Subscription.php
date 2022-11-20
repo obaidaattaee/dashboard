@@ -41,7 +41,7 @@ class Subscription extends Model
 
     public function scopeTableFilter($query)
     {
-        return $query->when(request()->input('clinet_id', false), function ($query, $clientId) {
+        return $query->when(request()->input('client_id', false), function ($query, $clientId) {
             return $query->where('client_id', $clientId);
         })->when(request()->input('plan_id', false), function ($query, $planId) {
             return $query->where('plan_id', $planId);

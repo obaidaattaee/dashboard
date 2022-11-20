@@ -72,7 +72,7 @@
                                 class="form-control"> --}}
                             <select name="plan_id" id="plan_id" class="form-control form-select select"
                                 data-coreui-search="true">
-                                <option value="">{{ ucwords(t('all clients')) }}</option>
+                                <option value="">{{ ucwords(t('all plans')) }}</option>
                                 @foreach ($plans as $plan)
                                     <option value="{{ $plan->id }}">{{ $plan->name }}</option>
                                 @endforeach

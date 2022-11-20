@@ -28,8 +28,10 @@ class DashboardController extends Controller
             ]);
         }
 
-        $data['clients'] = Client::count();
-        $data['plans'] = Plan::count();
+        $data['clients_count'] = Client::count();
+        $data['plans_count'] = Plan::count();
+        $data['clients'] = Client::get();
+        $data['plans'] = Plan::get();
         $data['subscriptions'] = Subscription::count();
         $data['invoices'] = Invoice::count();
 

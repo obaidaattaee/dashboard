@@ -14,7 +14,13 @@ class Client extends Model
     public function scopeTableFilter($query)
     {
         return $query->when(request()->input('name', false), function ($query, $name) {
-            return $query->where('name', 'like', '%' . $name . '%');
+            return $query->where('company_name', 'like', '%' . $name . '%')
+                ->orWhere('admin_name', 'like', '%' . $name . '%');
+        })->when(request()->input('email', false), function ($query, $email) {
+            return $query->where('email', 'like', '%' . $email . '%');
+        })->when(request()->input('phone_number', false), function ($query, $phoneNumber) {
+            return $query->where('company_phone', 'like', '%' . $phoneNumber . '%')
+                ->orWhere('admin_phone', 'like', '%' . $phoneNumber . '%');
         });
     }
 

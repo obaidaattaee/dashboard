@@ -100,4 +100,6 @@ return [
  	'edit' => 'edit',
  	'all clients' => 'all clients',
  	'client updated successfully' => 'client updated successfully',
+ 	'phone number' => 'phone number',
+ 	'all plans' => 'all plans',
 ];

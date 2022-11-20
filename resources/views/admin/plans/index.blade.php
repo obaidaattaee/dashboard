@@ -42,8 +42,13 @@
                                 class="form-control">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" placeholder="{{ ucwords(t('email')) }}" name="email" id="email"
-                                class="form-control">
+                            <select name="duration" id="duration" class="form-control">
+                                <option value="">{{ t('duration') }}</option>
+                                @foreach ($durations as $duration)
+                                    <option value="{{ $duration['name'] }}">
+                                        {{ ucwords(t($duration['display_name'])) }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="col-md-3">
@@ -76,7 +81,8 @@
             var url = $(this).prop('action')
 
             $.ajax({
-                url: url + "?name=" + $('#name').val() + '&email=' + $('#email').val(),
+                url: url + "?name=" + $('#name').val() + '&email=' + $('#email').val() + '&duration=' + $(
+                    '#duration').val(),
                 method: "get",
                 data: formData,
                 processData: false,

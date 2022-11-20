@@ -45,6 +45,10 @@
                             <input type="text" placeholder="{{ ucwords(t('email')) }}" name="email" id="email"
                                 class="form-control">
                         </div>
+                        <div class="col-md-3">
+                            <input type="text" placeholder="{{ ucwords(t('phone number')) }}" name="phone_number"
+                                id="phone_number" class="form-control">
+                        </div>
 
                         <div class="col-md-3">
                             <button type="submit" class="btn btn-success">
@@ -76,7 +80,8 @@
             var url = $(this).prop('action')
 
             $.ajax({
-                url: url + "?name=" + $('#name').val() + '&email=' + $('#email').val(),
+                url: url + "?name=" + $('#name').val() + '&email=' + $('#email').val() + '&phone_number=' + $(
+                    '#phone_number').val(),
                 method: "get",
                 data: formData,
                 processData: false,

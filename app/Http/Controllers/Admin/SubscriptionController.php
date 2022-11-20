@@ -32,10 +32,12 @@ class SubscriptionController extends Controller
                     ->take(1)
             )
             ->paginate($limit, ['*'], 'subscriptions');
+
+            // return [$subscriptions , request()->all()];
         if (request()->ajax()) {
             return $this->sendResponse([
                 'data' => view('admin.subscriptions.table')->with('subscriptions', $subscriptions)->render(),
-                'container_class' => 'subscriptions-content',
+                'container_class' => '.subscriptions-content',
             ]);
         }
 

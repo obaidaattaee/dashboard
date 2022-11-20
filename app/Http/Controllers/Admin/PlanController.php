@@ -16,8 +16,9 @@ class PlanController extends Controller
         if (request()->ajax()) {
             return $this->sendResponse(view('admin.plans.table')->with('plans', $plans)->render());
         }
+        $durations = Plan::DURATIONS;
 
-        return view('admin.plans.index')->with('plans', $plans);
+        return view('admin.plans.index')->with('durations', $durations)->with('plans', $plans);
     }
 
     public function create()
@@ -44,7 +45,7 @@ class PlanController extends Controller
     {
         $plan->delete();
 
-        return $this->sendResponse([] , t('plan deleted successfully.'));
+        return $this->sendResponse([], t('plan deleted successfully.'));
     }
 
 
@@ -57,7 +58,7 @@ class PlanController extends Controller
             ->with('durations', $durations);
     }
 
-    public function update(StorePlanRequest $request , Plan $plan)
+    public function update(StorePlanRequest $request, Plan $plan)
     {
         $data = $request->validated();
         $plan->update($data);

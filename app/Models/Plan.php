@@ -31,6 +31,8 @@ class Plan extends Model
     {
         return $query->when(request()->input('name', false), function ($query, $name) {
             return $query->where('name', 'like', '%' . $name . '%');
+        })->when(request()->input('duration', false), function ($query, $duration) {
+            return $query->where('duration', $duration);
         });
     }
 
