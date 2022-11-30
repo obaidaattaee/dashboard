@@ -102,4 +102,6 @@ return [
  	'client updated successfully' => 'client updated successfully',
  	'phone number' => 'phone number',
  	'all plans' => 'all plans',
+ 	'you must verify your account' => 'you must verify your account',
+ 	'something went wrong' => 'something went wrong',
 ];
