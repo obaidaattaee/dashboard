@@ -77,21 +77,21 @@ class AutomationController extends Controller
     public function checkifnotified($subscription_id)
     {
         $notification =  automation_notification::where('subscription_id',$subscription_id)->first();
-
         if(!empty($notification))
         {
-           $update_at = Carbon::createFromFormat('Y-m-d H:i:s', $notification['updated_at']);
-           //date('Y-m-d',strtotime($notification['updated_at']));
-           $date_per_check = Carbon::now()->addDays(10);
-            $result = $date_per_check->gt($update_at);
+           $update_at = Carbon::createFromFormat('Y-m-d H:i:s', $notification['updated_at'])->addDays(10);
+           $today = Carbon::now();
+           $result = $today->gt($update_at);
             if($result == true)
             {
-                return $result."sss";
+                return true;
+            }else
+            {
+                return "0";
             }
-
         }else
         {
-            return "ddddd";
+            return false;
         }
     }
     /**
