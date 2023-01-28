@@ -14,7 +14,7 @@
                 <svg class="nav-icon">
                     <use xlink:href="{{ asset('admin_assets/vendors/@coreui/icons/svg/free.svg#cil-speedometer') }}">
                     </use>
-                </svg> Dashboard<span class="badge badge-sm bg-info ms-auto">NEW</span>
+                </svg> لوحه التحكم<span class="badge badge-sm bg-info ms-auto">جديد</span>
             </a>
         </li>
         <li class="nav-title">{{ ucwords(t('settings')) }}</li>

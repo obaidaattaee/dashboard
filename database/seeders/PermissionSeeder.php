@@ -32,7 +32,13 @@ class PermissionSeeder extends Seeder
         ];
 
         $roles = [
-            ['name' => 'super_admin', 'guard_name' => 'web'],
+            // ['name' => 'super_admin', 'guard_name' => 'web'],
+            ['name' => 'مدير النظام', 'guard_name' => 'web'],
+            ['name' => 'المرشد المدرسي', 'guard_name' => 'web'],
+            ['name' => 'مدير المدرسه', 'guard_name' => 'web'],
+            ['name' => 'مدرس', 'guard_name' => 'web'],
+            ['name' => 'طالب', 'guard_name' => 'web'],
+            ['name' => 'ولي امر ', 'guard_name' => 'web'],
         ];
 
         Schema::disableForeignKeyConstraints();
@@ -51,6 +57,5 @@ class PermissionSeeder extends Seeder
         }
 
         Schema::enableForeignKeyConstraints();
-
     }
 }

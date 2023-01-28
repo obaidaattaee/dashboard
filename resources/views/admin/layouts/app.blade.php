@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="{{ asset('admin_assets/css/vendors/simplebar.css') }}">
     <link rel="stylesheet" href="{{ asset('admin_assets/icons/coreui-icons-master/css/all.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <link rel="shortcut icon" href="{{ asset('admin_assets/assets/img/default_logo.png') }}" type="image/x-icon">
     <!-- Main styles for this application-->
     <link href="{{ asset('admin_assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin_assets/css/examples.css') }}" rel="stylesheet">
@@ -72,7 +74,7 @@
                 <ul class="header-nav ms-3">
                     <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#"
                             role="button" aria-haspopup="true" aria-expanded="false">
-                            <div class="avatar avatar-md"><img class="avatar-img" src="assets/img/avatars/8.jpg"
+                            <div class="avatar avatar-md"><img class="avatar-img" src="admin_assets/assets/img/default_logo.png"
                                     alt="{{ auth()->user()->name }}"></div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end pt-0">

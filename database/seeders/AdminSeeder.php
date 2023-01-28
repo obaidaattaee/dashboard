@@ -28,7 +28,11 @@ class AdminSeeder extends Seeder
             'password' => bcrypt(12345678),
         ]);
 
-        $admin->syncRoles(['super_admin']);
+        $admin->syncRoles(['مدير النظام']);
+
+        User::factory(300)->create()->each(function ($user) {
+            $user->syncRoles(Role::inRandomOrder()->first()->id);
+        });
 
         Schema::enableForeignKeyConstraints();
     }

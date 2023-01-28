@@ -30,4 +30,7 @@
  	'password' => 'password',
  	'user added successfully' => 'user added successfully',
  	'user updated successfully' => 'user updated successfully',
+ 	'Users' => 'Users',
+ 	'Users' => 'Users',
+ 	'Users' => 'Users',
 ];
