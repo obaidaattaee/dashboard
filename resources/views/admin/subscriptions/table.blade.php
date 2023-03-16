@@ -78,7 +78,7 @@
                         @if ($subscriptionInvoice = $subscription->invoiceSubscriptions->first())
                             @php
                                 if (Carbon\Carbon::parse($subscriptionInvoice->expiration_date)->gt(now())) {
-                                    if (object_get($subscription, 'plan.name', App\Models\Plan::DURATIONS[0]['name']) == App\Models\Plan::DURATIONS[1]['name']) {
+                                    if (object_get($subscription, 'plan.name', App\Models\Plan::DURATIONS[0]['name']) == App\Models\Plan::DURATIONS[0]['name']) {
                                         $color = Carbon\Carbon::parse($subscriptionInvoice->expiration_date)->diffInMonths(now()) > 1 ? 'success' : 'warning';
                                     } else {
                                         $color = Carbon\Carbon::parse($subscriptionInvoice->expiration_date)->diffInDays(now()) > 7 ? 'success' : 'warning';
@@ -97,9 +97,7 @@
                         @endif
                     </td>
 
-                    <td>
-                        {{ object_get($subscription, 'cost') * object_get($subscription, 'quantity', 1) }}
-                    </td>
+
                     <td>
                         @if ($subscriptionInvoice = $subscription->invoiceSubscriptions->first())
                             <span class="btn btn-{{ $subscriptionInvoice->sales_status_color }} btn-sm">
@@ -109,6 +107,9 @@
                             <span class="btn btn-warning btn-sm">
                                 {{ App\Models\InvoiceSubscription::STATUSES[0]['name'] }}</span>
                         @endif
+                    </td>
+                    <td>
+                        {{ object_get($subscription, 'cost') * object_get($subscription, 'quantity', 1) }}
                     </td>
                     <td>
                         {{ object_get($subscription, 'quantity', '-') }}
